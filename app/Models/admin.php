@@ -21,4 +21,15 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    // Админы хүргүүлсэн төлбөрүүд
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

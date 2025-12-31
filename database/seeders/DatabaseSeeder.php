@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +13,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            AdminSeeder::class,
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Create sample categories
+        Category::create([
+            'name' => 'Mobile Phones',
+        ]);
+
+        Category::create([
+            'name' => 'Techqnology',
+        ]);
+
+        Category::create([
+            'name' => 'Cars',
+        ]);
+
+        Category::create([
+            'name' => 'Suitcases',
+        ]);
+        Category::create([
+            'name' => 'Others',
+        ]);
     }
 }

@@ -42,4 +42,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Хэрэглэгчийн сагс
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    // Хэрэглэгчийн захиалгууд
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

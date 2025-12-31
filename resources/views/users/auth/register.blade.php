@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Нэвтрэх - Light Shop')
+@section('title', 'Бүртгүүлэх - Light Shop')
 
 @section('content')
     <div class="container py-5">
@@ -8,10 +8,19 @@
             <div class="col-md-5">
                 <div class="card bg-dark border-light">
                     <div class="card-body p-5">
-                        <h2 class="card-title text-center mb-4">🔐 Admin Login</h2>
+                        <h2 class="card-title text-center mb-4">✨ Бүртгүүлэх</h2>
 
-                        <form method="POST" action="{{ route('admin.login.submit') }}">
+                        <form method="POST" action="{{ route('users.register.submit') }}">
                             @csrf
+
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Нэр</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    id="name" name="name" value="{{ old('name') }}" required>
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
                             <div class="mb-3">
                                 <label for="email" class="form-label">Имэйл</label>
@@ -22,7 +31,7 @@
                                 @enderror
                             </div>
 
-                            <div class="mb-4">
+                            <div class="mb-3">
                                 <label for="password" class="form-label">Нууц үг</label>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror"
                                     id="password" name="password" required>
@@ -31,14 +40,20 @@
                                 @enderror
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 mb-3">Нэвтрэх</button>
+                            <div class="mb-4">
+                                <label for="password_confirmation" class="form-label">Нууц үг баталгаажуулах</label>
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 mb-3">Бүртгүүлэх</button>
                         </form>
 
                         <hr class="bg-light">
 
                         <p class="text-center mb-0">
-                            Хэрэглэгч болгон нэвтрэх үү?
-                            <a href="{{ route('users.login') }}" class="text-info">Хэрэглэгч нэвтрэх</a>
+                            Аль хэдийн бүртгүүлсэн үү?
+                            <a href="{{ route('users.login') }}" class="text-info">Нэвтрэх</a>
                         </p>
                     </div>
                 </div>
