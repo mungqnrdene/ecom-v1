@@ -8,6 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         * {
@@ -68,47 +69,52 @@
         /* AUTH BUTTONS */
         .auth-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .login-btn {
-            padding: 8px 18px;
+            padding: 10px 24px;
             border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             color: #fff;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 600;
             text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .login-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
         }
 
         .register-btn {
-            padding: 8px 18px;
+            padding: 10px 24px;
             border-radius: 999px;
-            border: none;
+            border: 2px solid transparent;
             background: linear-gradient(135deg, #22c55e, #16a34a);
             color: #fff;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 600;
             text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
         }
 
         .register-btn:hover {
-            opacity: 0.9;
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(34, 197, 94, 0.5);
         }
 
-        /* ================= SIDEBAR ================= */
+        /* ================= SIDEBAR (HIDDEN) ================= */
         .sidebar {
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 240px;
-            height: calc(100vh - 70px);
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(14px);
-            padding: 20px;
+            display: none;
         }
 
         .sidebar a {
@@ -131,44 +137,317 @@
 
         /* ================= MAIN ================= */
         .main {
-            margin-left: 240px;
+            margin-left: 0;
             margin-top: 70px;
             padding: 30px;
+            max-width: 1400px;
+            margin: 70px auto 0;
         }
 
-        /* PRODUCT CARD */
-        .product-card {
-            background: rgba(255, 255, 255, 0.12);
+
+
+        /* ================= HERO SECTION ================= */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+            border-radius: 28px;
+            padding: 100px 40px;
+            text-align: center;
+            margin-bottom: 70px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-section h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-section p {
+            font-size: 1.35rem;
+            color: #d1d5db;
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ================= ABOUT SECTION ================= */
+        .about-section {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 28px;
+            padding: 60px 50px;
+            margin-bottom: 70px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-section h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+        }
+
+        /* ================= TECHNOLOGY STACK SECTION ================= */
+        .tech-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 28px;
+            padding: 60px 50px;
+            margin-bottom: 70px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .tech-section h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
-            overflow: hidden;
-            transition: 0.3s;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .product-card:hover {
-            transform: translateY(-6px);
+        .tech-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.4);
+            border-color: rgba(139, 92, 246, 0.6);
+            background: rgba(139, 92, 246, 0.15);
         }
 
-        .product-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
+        .tech-item i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            display: block;
+            transition: transform 0.3s ease;
         }
 
-        .product-body {
-            padding: 16px;
+        .tech-item:hover i {
+            transform: rotate(360deg);
         }
-        .product-body a{
-            text-decoration: none;
+
+        .tech-item .tech-name {
+            font-size: 1.1rem;
+            font-weight: 600;
             color: #e5e7eb;
+            margin: 0;
         }
 
-        .buy-btn {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            border: none;
-            border-radius: 999px;
-            padding: 8px;
-            color: #fff;
+        .fa-html5 {
+            color: #e34c26;
+        }
+
+        .fa-css3-alt {
+            color: #264de4;
+        }
+
+        .fa-js {
+            color: #f0db4f;
+        }
+
+        .fa-php {
+            color: #777bb4;
+        }
+
+        .fa-laravel {
+            color: #ff2d20;
+        }
+
+        .fa-database {
+            color: #00758f;
+        }
+
+        /* ================= CONTACT SECTION ================= */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(16, 185, 129, 0.15));
+            border-radius: 28px;
+            padding: 60px 50px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-section h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #34d399, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-section a {
+            color: #60a5fa;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .contact-section a:hover {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 25px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .social-links a {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+            border-color: #60a5fa;
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .social-links .fa-envelope {
+            color: #ef4444;
+        }
+
+        .social-links .fa-x-twitter {
+            color: #1da1f2;
+        }
+
+        .social-links .fa-facebook {
+            color: #1877f2;
+        }
+
+        .social-links .fa-instagram {
+            color: #e4405f;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #f3f4f6;
+            font-size: 1.05rem;
+        }
+
+        .contact-text {
+            color: #d1d5db;
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        .map-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        .map-container iframe {
             width: 100%;
+            height: 280px;
+            border-radius: 12px;
+            border: none;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+
+            .about-section h2,
+            .tech-section h2,
+            .contact-section h2 {
+                font-size: 2rem;
+            }
+
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .tech-item i {
+                font-size: 3rem;
+            }
+
+            .hero-section,
+            .about-section,
+            .tech-section,
+            .contact-section {
+                padding: 40px 25px;
+            }
+
+            .map-container iframe {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -177,79 +456,146 @@
 
     <!-- HEADER -->
     <div class="header">
-        <div class="logo">🛒 Light Shop</div>
+        <div class="logo">✨ Light Shop</div>
 
-        <div class="header-actions">
-            <div class="icon-btn">🔍</div>
 
-            <div class="icon-btn">
-                <a href="{{ route('users.login') }}">🛍️</a>
-                <span class="badge">0</span>
+
+        <!-- GUEST: LOGIN / REGISTER BUTTONS -->
+        @if (!Auth::guard('web')->check())
+            <div class="auth-buttons">
+                <a href="{{ route('users.login') }}" class="login-btn">Нэвтрэх</a>
+                <a href="{{ route('users.register') }}" class="register-btn">Бүртгүүлэх</a>
             </div>
-
-            <!-- GUEST: LOGIN / REGISTER BUTTONS -->
-            @if (!Auth::guard('web')->check())
-                <div class="auth-buttons">
-                    <a href="{{ route('users.login') }}" class="login-btn">Нэвтрэх</a>
-                    <a href="{{ route('users.register') }}" class="register-btn">Бүртгүүлэх</a>
-                </div>
-            @else
-                <!-- LOGGED IN: PROFILE & LOGOUT -->
-                <div class="d-flex align-items-center gap-2">
-                    <span class="text-light fw-bold">{{ Auth::guard('web')->user()->name }}</span>
-                    <form method="POST" action="{{ route('users.logout') }}" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-danger">Гарах</button>
-                    </form>
-                </div>
-            @endif
-        </div>
+        @else
+            <!-- LOGGED IN: PROFILE & LOGOUT -->
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-light fw-bold">{{ Auth::guard('web')->user()->name }}</span>
+                <form method="POST" action="{{ route('users.logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-danger">Гарах</button>
+                </form>
+            </div>
+        @endif
+    </div>
     </div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <a href="{{ route('welcome') }}" class="{{ request()->routeIs('welcome') ? 'active' : '' }}">🛒 Бараанууд</a>
-        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">📞 Холбоо барих</a>
-    </div>
-
-    <!-- MAIN -->
+    <!-- MAIN CONTENT -->
     <div class="main">
-        <h3>Бараанууд</h3>
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+            <h1>✨ Light Shop</h1>
+        </section>
 
-        <div class="row g-4 mt-2">
-            @forelse($products as $product)
-                <div class="col-md-4">
-                    <div class="product-card">
-                        @if ($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-                        @else
-                            <img src="https://via.placeholder.com/400x250?text={{ urlencode($product->name) }}"
-                                alt="{{ $product->name }}">
-                        @endif
-                        <div class="product-body">
-                            <h5>{{ $product->name }}</h5>
-                            <p>💰 {{ number_format($product->price) }}₮</p>
-                            @if (Auth::guard('web')->check())
-                                <form method="POST" action="{{ route('cart.add', $product->id) }}">
-                                    @csrf
-                                    <button class="buy-btn">Сагсанд нэмэх</button>
-                                </form>
-                            @else
-                                <a href="{{ route('users.login') }}" class="buy-btn text-center d-block">
-                                    Нэвтэрч байж сагсанд нэмнэ
-                                </a>
-                            @endif
+        <!-- ABOUT US SECTION -->
+        <section class="about-section">
+            <h2>📖 Бидний тухай</h2>
+            <p class="mb-4">
+                Light Shop нь орчин үеийн технологид суурилсан онлайн худалдааны вэбсайт юм.
+                Бид хэрэглэгчдэд хялбар, найдвартай, аюулгүй онлайн худалдааны туршлага санал болгодог.
+            </p>
+            <p class="mb-0">
+                Манай систем нь Laravel framework дээр бүтээгдсэн бөгөөд хэрэглэгчид бараа үзэх, хадгалах,
+                захиалах, төлбөр төлөх зэрэг бүх үйлдлийг хялбараар гүйцэтгэх боломжтой.
+            </p>
+        </section>
+
+        <!-- TECHNOLOGY STACK SECTION -->
+        <section class="tech-section">
+            <h2>⚙️ Ашигласан технологи</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <i class="fab fa-html5"></i>
+                    <p class="tech-name">HTML5</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-css3-alt"></i>
+                    <p class="tech-name">CSS3</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-js"></i>
+                    <p class="tech-name">JavaScript</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-php"></i>
+                    <p class="tech-name">PHP</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-laravel"></i>
+                    <p class="tech-name">Laravel</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <p class="tech-name">MySQL</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="contact-section" id="contact">
+            <h2>📞 Холбоо барих</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="contact-info">
+                        <p class="section-title"><i class="fas fa-envelope me-2"></i>Имэйл</p>
+                        <p class="contact-text">
+                            <a href="mailto:mongoldei0212@gmail.com">mongoldei0212@gmail.com</a>
+                        </p>
+
+                        <p class="section-title mt-4"><i class="fas fa-phone me-2"></i>Утас</p>
+                        <p class="contact-text">
+                            <a href="tel:+97695297999">+976 9529 7999</a>
+                        </p>
+
+                        <p class="section-title mt-4"><i class="fas fa-map-marker-alt me-2"></i>Хаяг</p>
+                        <p class="contact-text">Улаанбаатар, Сүхбаатар дүүрэг, 1-р хороо, ЮНЕСКО-гийн гудамж C-Блок</p>
+
+                        <p class="section-title mt-4"><i class="fas fa-clock me-2"></i>Ажлын цаг</p>
+                        <p class="contact-text mb-0">Даваа - Баасан: 09:00 - 18:00</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="contact-info text-center">
+                        <p class="section-title"><i class="fas fa-share-alt me-2"></i>Интернет хаягууд</p>
+                        <div class="social-links">
+                            <a href="mailto:mongoldei0212@gmail.com" title="Email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <a href="https://x.com/mungunrs?s=21" target="_blank" rel="noopener" title="Twitter / X">
+                                <i class="fab fa-x-twitter"></i>
+                            </a>
+                            <a href="https://www.facebook.com/share/1FoBAfhNLL/?mibextid=wwXIfr" target="_blank"
+                                rel="noopener" title="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="https://www.instagram.com/_mungqn_erdene?igsh=MW1oYWpteHFyNHc3MA%3D%3D&utm_source=qr"
+                                target="_blank" rel="noopener" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- GOOGLE MAP -->
+                    <div class="row mt-0">
+                        <div class="col-12">
+                            <div class="map-container">
+                                <p class="section-title text-center mb-3">
+                                    <i class="fas fa-map-marked-alt me-2"></i>Манай байршил
+                                </p>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2900.7628324966427!2d106.92761217647187!3d47.90904976704308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d9693d56738aaa1%3A0x30b065f0d3ca97e5!2sM%20Smart%20Academy!5e1!3m2!1sen!2smn!4v1767289859757!5m2!1sen!2smn"
+                                    width="100%" height="360"
+                                    style="border:0; border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.25);"
+                                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
-            @empty
-                <div class="col-12">
-                    <p class="text-center text-muted">Бараа олдсонгүй</p>
-                </div>
-            @endforelse
-        </div>
+            </div>
+
+
+        </section>
     </div>
 
 </body>
-<script>
-    < /html>
+
+</html>

@@ -21,6 +21,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_picture',
+        'phone',
+        'city',
+        'district',
+        'address',
+        'apartment_number',
     ];
 
     /**
@@ -40,6 +46,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login_at' => 'datetime',
         'password' => 'hashed',
     ];
 
@@ -49,9 +56,20 @@ class User extends Authenticatable
         return $this->hasOne(Cart::class);
     }
 
+    public function wishlistItems()
+    {
+        return $this->hasMany(WishlistItem::class);
+    }
+
     // Хэрэглэгчийн захиалгууд
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    // Хэрэглэгчийн хадгалсан карт
+    public function savedCards()
+    {
+        return $this->hasMany(SavedCard::class);
     }
 }

@@ -64,25 +64,26 @@
 @section('page')
     <h2 class="mb-4">🛍️ Миний сагс</h2>
 
-    @if (!$cart || count($cart) === 0)
+    @if ($cartItems->isEmpty())
         <div class="alert alert-secondary">Сагс хоосон байна.</div>
     @else
         <div class="cart-grid">
-            @foreach ($cart as $id => $item)
+            @foreach ($cartItems as $item)
+                @php($product = $item->product)
                 <div class="cart-item">
-                    @if (isset($item['image']))
-                        <img src="{{ asset('storage/' . $item['image']) }}" class="cart-img" alt="{{ $item['name'] }}">
+                    @if ($product && $product->image)
+                        <img src="{{ asset('storage/' . $product->image) }}" class="cart-img" alt="{{ $product->name }}">
                     @else
-                        <img src="https://via.placeholder.com/80" class="cart-img" alt="{{ $item['name'] }}">
+                        <img src="https://via.placeholder.com/80" class="cart-img" alt="{{ $product->name ?? 'Product' }}">
                     @endif
 
                     <div class="cart-info">
-                        <div class="cart-name">{{ $item['name'] }}</div>
-                        <div class="cart-price">{{ $item['qty'] }} × {{ number_format($item['price']) }} ₮</div>
+                        <div class="cart-name">{{ $product->name ?? 'Бараа устсан' }}</div>
+                        <div class="cart-price">{{ $item->quantity }} × {{ number_format($item->unit_price) }} ₮</div>
                     </div>
 
                     <div class="cart-remove">
-                        <form method="POST" action="{{ route('cart.remove', $id) }}">
+                        <form method="POST" action="{{ route('cart.remove', $item->product_id) }}">
                             @csrf
                             <button class="btn btn-danger btn-sm">✖</button>
                         </form>

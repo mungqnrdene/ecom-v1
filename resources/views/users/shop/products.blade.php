@@ -48,12 +48,23 @@
                     @endif
                     <div class="p-3">
                         <h6 class="mb-1">{{ $product->name }}</h6>
-                        <p class="small text-muted mb-2">{{ Str::limit($product->description, 80) }}</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="price">₮ {{ number_format($product->price) }}</span>
-                            <form method="POST" action="{{ route('cart.add', $product->id) }}">
+                        <p class="small text-muted mb-2">
+                            {{ $product->description ? Str::limit($product->description, 80) : 'Тайлбар байхгүй' }}
+                        </p>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="bi bi-calendar3" style="font-size: 0.75rem; opacity: 0.7;"></i>
+                            <small class="text-muted"
+                                style="font-size: 0.75rem;">{{ $product->created_at->format('Y/m/d') }}</small>
+                        </div>
+                        <span class="price d-block mb-2">₮ {{ number_format($product->price) }}</span>
+                        <div class="d-flex gap-2">
+                            <form method="POST" action="{{ route('cart.add', $product->id) }}" class="flex-fill">
                                 @csrf
-                                <button class="btn btn-sm btn-primary">Сагсанд нэмэх</button>
+                                <button class="btn btn-sm btn-primary w-100">Сагсанд нэмэх</button>
+                            </form>
+                            <form method="POST" action="{{ route('users.wishlist.add', $product->id) }}" class="flex-fill">
+                                @csrf
+                                <button class="btn btn-sm btn-outline-light w-100">❤️ Хадгалах</button>
                             </form>
                         </div>
                     </div>

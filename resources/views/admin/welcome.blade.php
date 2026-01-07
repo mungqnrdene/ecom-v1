@@ -3,28 +3,30 @@
 @section('title', 'Нүүр хуудас - Light Shop')
 
 @section('content')
-    <div class="container py-5">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4">
-                <h1 class="display-4 fw-bold mb-4">✨ WELCOME :)</h1>
-                <p class="lead mb-4">Сайн байна уу, {{ $admin->name }}!</p>
-                <p class="lead mb-4">Ene bol admin</p>
-
-                <div class="d-flex gap-3">
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-lg">📊 Dashboard</a>
-                    <a href="{{ route('admin.products.index') }}" class="btn btn-info btn-lg">📦 Baraa bvteegdehvvn</a>
-                </div>
+    <div class="container admin-page">
+        <div class="admin-page-header">
+            <div>
+                <span class="admin-eyebrow">Welcome back</span>
+                <h1 class="admin-page-title">✨ Light Shop админ хэсэг</h1>
+                <p class="admin-page-subtitle">Сайн байна уу, {{ $admin->name }}. Доорх товчлууруудыг ашиглан гол самбарууд
+                    руу
+                    хурдан шилжинэ үү.</p>
             </div>
-
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-primary admin-cta-btn">📊 Dashboard</a>
+                <a href="{{ route('admin.products.index') }}" class="btn btn-info admin-cta-btn">📦 Бүтээгдэхүүн</a>
+                <a href="{{ route('admin.reports') }}" class="btn btn-success admin-cta-btn">📈 Тайлан</a>
+            </div>
         </div>
 
-        <!-- Features -->
-        <div class="row mt-5 g-4">
+        <div class="row g-4">
             <div class="col-md-4">
                 <div class="card bg-dark border-light text-center h-100">
                     <div class="card-body">
                         <h5 class="card-title">📦 Бүтээгдэхүүн</h5>
-                        <p class="card-text">Бүтээгдэхүүн удирдах систем</p>
+                        <p class="card-text">Каталог, зураг, тайлбар, төрөлүүдийг нэг газраас удирд.</p>
+                        <a href="{{ route('admin.products.index') }}" class="btn btn-outline-light btn-sm mt-2">Жагсаалт
+                            руу очих</a>
                     </div>
                 </div>
             </div>
@@ -33,7 +35,9 @@
                 <div class="card bg-dark border-light text-center h-100">
                     <div class="card-body">
                         <h5 class="card-title">👥 Хэрэглэгч</h5>
-                        <p class="card-text">Хэрэглэгчийн нэхэмжлэл удирдах</p>
+                        <p class="card-text">Хэрэглэгчдийн идэвх, захиалгын мэдээллийг real-time хар.</p>
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-light btn-sm mt-2">Самбар руу
+                            очих</a>
                     </div>
                 </div>
             </div>
@@ -42,7 +46,8 @@
                 <div class="card bg-dark border-light text-center h-100">
                     <div class="card-body">
                         <h5 class="card-title">📊 Тайлан</h5>
-                        <p class="card-text">Борлуулалтын тайлан үзэх</p>
+                        <p class="card-text">Борлуулалт, төлбөрийн статистикаа тайлангийн хэсгээр нэг дор хараарай.</p>
+                        <a href="{{ route('admin.reports') }}" class="btn btn-outline-light btn-sm mt-2">Тайлан руу очих</a>
                     </div>
                 </div>
             </div>

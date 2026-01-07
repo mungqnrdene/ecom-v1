@@ -10,10 +10,12 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        Admin::query()->create([
-            'name' => 'System Admin',
-            'email' => 'mongoldei0212@gmail.com',
-            'password' => Hash::make('password123'),
-        ]);
+        Admin::firstOrCreate(
+            ['email' => 'mongoldei0212@gmail.com'], // unique шалгалт
+            [
+                'name' => 'System Admin',
+                'password' => bcrypt('password123'),
+            ]
+        );
     }
 }

@@ -2,32 +2,55 @@
 
 return [
 
-    // ...
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Defaults  ⬅⬅⬅ ЭНЭ ХЭСЭГ ЧУХАЛ
+    |--------------------------------------------------------------------------
+    */
+    'defaults' => [
+        'guard' => 'web',
+        'passwords' => 'users',
+    ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Guards
+    |--------------------------------------------------------------------------
+    */
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
 
-        'admin' => [                      // <- admin guard нэмэв
+        'admin' => [ // admin guard
             'driver' => 'session',
             'provider' => 'admins',
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | User Providers
+    |--------------------------------------------------------------------------
+    */
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
 
-        'admins' => [                    // <- admin provider нэмэв
+        'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Password Reset
+    |--------------------------------------------------------------------------
+    */
     'passwords' => [
         'users' => [
             'provider' => 'users',
@@ -36,7 +59,7 @@ return [
             'throttle' => 60,
         ],
 
-        'admins' => [                   // <- админ нууц үг сэргээх тохиргоо (боломжит)
+        'admins' => [
             'provider' => 'admins',
             'table' => 'password_reset_tokens',
             'expire' => 60,
@@ -44,6 +67,6 @@ return [
         ],
     ],
 
-    // ...
+    'otp_expiry_minutes' => env('OTP_EXPIRY_MINUTES', 10),
 
 ];

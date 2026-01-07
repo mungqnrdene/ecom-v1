@@ -17,13 +17,19 @@ class Order extends Model
         'order_number',
         'status',
         'payment_status',
+        'payment_method',
         'subtotal',
         'shipping_cost',
         'tax',
         'total_amount',
         'shipping_address',
         'phone',
-        'notes'
+        'notes',
+        'refunded_at',
+    ];
+
+    protected $casts = [
+        'refunded_at' => 'datetime',
     ];
 
     public function user()
@@ -39,5 +45,36 @@ class Order extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * Check if order can be refunded (within 5 minutes)
+     */
+    public function canRefund()
+    {
+        if ($this->status === 'refunded') {
+            return false;
+        }
+
+        $refundDeadline = $this->created_at->copy()->addMinutes(5);
+        return now()->lessThanOrEqualTo($refundDeadline);
+    }
+
+    /**
+     * Get remaining refund time in seconds
+     */
+    public function getRefundTimeRemaining()
+    {
+        if (!$this->canRefund()) {
+            return 0;
+        }
+
+        $refundDeadline = $this->created_at->copy()->addMinutes(5);
+        return max(0, now()->diffInSeconds($refundDeadline, false));
     }
 }

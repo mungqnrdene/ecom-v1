@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Category;
 
@@ -17,24 +16,34 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
         ]);
 
-        // Create sample categories
-        Category::create([
-            'name' => 'Mobile Phones',
-        ]);
+        $categories = [
+            'Эмэгтэй',
+            'Эрэгтэй',
+            'Гоо сайхан',
+            'Спорт & Аялал',
+            'Хүүхдийн',
+            'Гэрийн & Тавилга',
+            'Гоёл чимэглэл',
+            'Технологи',
+            'Тоглоом & Хобби',
+            'Бичиг хэрэг',
+            'Эрүүл мэнд & Эрүүл ахуй',
+            'Бэлгийн эрүүл мэнд',
+            'Цахилгаан хэрэгсэл',
+            'Хүнс',
+            'Ном & цомог, пянз',
+            'Урлаг энтертайнмент',
+            'Авто',
+            'Тэжээвэр амьтны хангамж',
+            'Цахим тасалбар',
+            'Купон',
+            'Спорт',
+        ];
 
-        Category::create([
-            'name' => 'Techqnology',
-        ]);
-
-        Category::create([
-            'name' => 'Cars',
-        ]);
-
-        Category::create([
-            'name' => 'Suitcases',
-        ]);
-        Category::create([
-            'name' => 'Others',
-        ]);
+        foreach ($categories as $category) {
+            Category::firstOrCreate([
+                'name' => $category,
+            ]);
+        }
     }
 }

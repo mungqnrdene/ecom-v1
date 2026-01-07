@@ -21,6 +21,14 @@ class LoginController extends Controller
 
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
+
+            // Track last login
+            $admin = Auth::guard('admin')->user();
+            $admin->update([
+                'last_login_at' => now(),
+                'last_login_ip' => $request->ip(),
+            ]);
+
             return redirect()->route('admin.welcome')->with('success', 'Амжилттай нэвтэрлээ');
         }
 
