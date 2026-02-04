@@ -184,6 +184,120 @@
             color: #ef4444;
         }
 
+        /* Stock Info */
+        .product-meta-info {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .product-stock {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .product-stock.low-stock {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .product-stock.out-of-stock {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .product-size {
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .out-of-stock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card.out-of-stock .out-of-stock-overlay {
+            opacity: 1;
+        }
+
+        .out-of-stock-badge {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInScale 0.5s ease;
+        }
+
+        .buy-btn:disabled {
+            background: rgba(75, 85, 99, 0.5);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .buy-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         /* Empty State */
         .empty-state {
             background: rgba(15, 23, 42, 0.85);
@@ -260,22 +374,56 @@
     <div class="row g-4">
         @forelse($products as $product)
             <div class="col-lg-4 col-md-6">
-                <div class="product-card">
+                <div class="product-card {{ $product->quantity <= 0 ? 'out-of-stock' : '' }}">
                     <div class="product-img-wrapper">
                         <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/400x220' }}"
                             alt="{{ $product->name }}">
                         <div class="product-overlay"></div>
+                        @if ($product->quantity <= 0)
+                            <div class="out-of-stock-overlay">
+                                <div class="out-of-stock-badge">
+                                    <i class="bi bi-x-circle me-2"></i>ДУУССАН
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="product-body">
                         <h5 class="product-name">{{ $product->name }}</h5>
                         <div class="product-price">{{ number_format($product->price) }}₮</div>
+
+                        <div class="product-meta-info">
+                            @if ($product->quantity > 0)
+                                <span class="product-stock {{ $product->quantity <= 5 ? 'low-stock' : '' }}">
+                                    <i class="bi bi-box-seam"></i>
+                                    {{ $product->quantity }} ширхэг
+                                </span>
+                            @else
+                                <span class="product-stock out-of-stock">
+                                    <i class="bi bi-x-circle"></i>
+                                    Дууссан
+                                </span>
+                            @endif
+                            @if ($product->size)
+                                <span class="product-size">
+                                    <i class="bi bi-rulers"></i>
+                                    {{ $product->size }}
+                                </span>
+                            @endif
+                        </div>
+
                         <p class="product-description">{{ Str::limit($product->description, 100) }}</p>
                         <div class="product-actions">
                             <form method="POST" action="{{ route('cart.add', $product->id) }}" style="flex: 1;">
                                 @csrf
-                                <button type="submit" class="buy-btn w-100">
-                                    <i class="bi bi-cart-plus me-1"></i>
-                                    Сагсанд нэмэх
+                                <button type="submit" class="buy-btn w-100"
+                                    {{ $product->quantity <= 0 ? 'disabled' : '' }}>
+                                    @if ($product->quantity <= 0)
+                                        <i class="bi bi-x-circle me-1"></i>
+                                        Дууссан
+                                    @else
+                                        <i class="bi bi-cart-plus me-1"></i>
+                                        Сагсанд нэмэх
+                                    @endif
                                 </button>
                             </form>
                             <form method="POST" action="{{ route('users.wishlist.add', $product) }}">

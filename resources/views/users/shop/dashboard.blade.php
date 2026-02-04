@@ -187,6 +187,119 @@
             border: 1px solid rgba(251, 191, 36, 0.3);
         }
 
+        .product-meta-info {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .product-stock {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .product-stock.low-stock {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .product-stock.out-of-stock {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .product-size {
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .out-of-stock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card.out-of-stock .out-of-stock-overlay {
+            opacity: 1;
+        }
+
+        .out-of-stock-badge {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInScale 0.5s ease;
+        }
+
+        .add-cart-btn:disabled {
+            background: rgba(75, 85, 99, 0.5);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .add-cart-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         .add-cart-btn {
             background: linear-gradient(135deg, #22c55e, #16a34a);
             border: none;

@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function __construct()
     {
         // Admin middleware бүх method-д хамаарахгүй - search method энгийн хэрэглэгчдэд зориулагдсан
-        $this->middleware('auth:admin')->except(['search']);
+        $this->middleware('auth:admin')->except(['search', 'showPublic']);
     }
 
     // ================= LIST ALL PRODUCTS =================
@@ -42,6 +42,8 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
             'price'       => 'required|numeric|min:0',
+            'quantity'    => 'required|integer|min:0',
+            'size'        => 'nullable|string|max:100',
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'keywords'    => 'nullable|string|max:500',
@@ -83,6 +85,8 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
             'price'       => 'required|numeric|min:0',
+            'quantity'    => 'required|integer|min:0',
+            'size'        => 'nullable|string|max:100',
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'keywords'    => 'nullable|string|max:500',
@@ -247,5 +251,13 @@ class ProductController extends Controller
         return redirect()
             ->route('admin.products.index')
             ->with('success', 'Барааг амжилттай устгалаа');
+    }
+
+    // ================= PUBLIC PRODUCT DETAIL =================
+    public function showPublic(Product $product)
+    {
+        $product->load('category');
+
+        return view('users.shop.product-show', compact('product'));
     }
 }

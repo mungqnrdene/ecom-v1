@@ -32,6 +32,19 @@
             font-size: 0.95rem;
         }
 
+        .user-code-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #cbd5e1;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
         .settings-card {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(20px);
@@ -202,6 +215,9 @@
         <div class="settings-header">
             <h1 class="settings-title">⚙️ Тохиргоо</h1>
             <p class="settings-subtitle">Профайл болон хаягийн мэдээллээ засаж, хадгална уу.</p>
+            <div class="mt-2">
+                <span class="user-code-chip"><i class="bi bi-hash"></i> {{ Auth::user()->user_code }}</span>
+            </div>
         </div>
 
         @if (session('success'))

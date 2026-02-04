@@ -248,12 +248,116 @@
             outline: none;
             border-color: #3b82f6;
             background: rgba(30, 41, 59, 0.7);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: #6b7280;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .input-with-icon input {
+            padding-left: 45px;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
+        }
+
+        /* Card Preview */
+        .card-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+        }
+
+        .card-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .card-preview-chip {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .card-preview-number {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-preview-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .card-preview-holder {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+
+        .card-preview-holder-name {
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+        }
+
+        .card-preview-expiry {
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+        }
+
+        .card-preview-brand {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .input-helper {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 5px;
         }
 
         .checkbox-group {
@@ -413,40 +517,61 @@
     <div class="modal" id="addCardModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Шинэ карт нэмэх</h3>
+                <h3><i class="fas fa-credit-card me-2"></i>Шинэ карт нэмэх</h3>
+            </div>
+
+            <!-- Card Preview -->
+            <div class="card-preview">
+                <div class="card-preview-brand" id="previewBrand">VISA</div>
+                <div class="card-preview-chip"></div>
+                <div class="card-preview-number" id="previewNumber">•••• •••• •••• ••••</div>
+                <div class="card-preview-info">
+                    <div>
+                        <div class="card-preview-holder">Эзэмшигч</div>
+                        <div class="card-preview-holder-name" id="previewHolder">ТА НЭР</div>
+                    </div>
+                    <div>
+                        <div class="card-preview-expiry" id="previewExpiry">MM/YYYY</div>
+                    </div>
+                </div>
             </div>
 
             <form action="{{ route('users.saved-cards.store') }}" method="POST">
                 @csrf
 
-                <div class="form-group">
+                <div class="form-group input-with-icon">
+                    <i class="fas fa-user"></i>
                     <label for="card_holder">Картны эзэмшигч</label>
-                    <input type="text" id="card_holder" name="card_holder" required placeholder="ӨВӨРТҮвШИН ГАЛ">
+                    <input type="text" id="card_holder" name="card_holder" required placeholder=""
+                        oninput="updatePreview()">
+                    <div class="input-helper">Карт дээр бичигдсэнээр оруулна уу</div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group input-with-icon">
+                    <i class="fas fa-credit-card"></i>
                     <label for="card_number">Картны дугаар</label>
-                    <input type="text" id="card_number" name="card_number" required placeholder="1234567890123456"
-                        maxlength="16" pattern="\d{16}">
+                    <input type="text" id="card_number" name="card_number" required placeholder="1234 5678 9012 3456"
+                        maxlength="19" oninput="formatCardNumber(this); updatePreview()">
+                    <div class="input-helper">16 оронтой дугаар оруулна уу</div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="expiry_month">Сар</label>
+                        <label for="expiry_month"><i class="far fa-calendar-alt me-1"></i>Дуусах сар</label>
                         <input type="text" id="expiry_month" name="expiry_month" required placeholder="12" maxlength="2"
-                            pattern="\d{2}">
+                            oninput="formatMonth(this); updatePreview()">
+                        <div class="input-helper">01-12</div>
                     </div>
                     <div class="form-group">
-                        <label for="expiry_year">Жил</label>
+                        <label for="expiry_year"><i class="far fa-calendar-alt me-1"></i>Дуусах жил</label>
                         <input type="text" id="expiry_year" name="expiry_year" required placeholder="2025" maxlength="4"
-                            pattern="\d{4}">
+                            oninput="formatYear(this); updatePreview()">
+                        <div class="input-helper">YYYY</div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="card_brand">Картын төрөл (заавал биш)</label>
-                    <input type="text" id="card_brand" name="card_brand" placeholder="Visa, Mastercard, гэх мэт">
-                </div>
+                <!-- Hidden field for auto-detected card brand -->
+                <input type="hidden" id="card_brand" name="card_brand" value="">
 
                 <div class="checkbox-group">
                     <input type="checkbox" id="is_default" name="is_default" value="1">
@@ -468,6 +593,7 @@
     <script>
         function openModal() {
             document.getElementById('addCardModal').classList.add('active');
+            updatePreview();
         }
 
         function closeModal() {
@@ -479,6 +605,114 @@
             if (e.target === this) {
                 closeModal();
             }
+        });
+
+        // Detect card type based on card number
+        function detectCardType(cardNumber) {
+            const cleanNumber = cardNumber.replace(/\s/g, '');
+
+            // Visa: starts with 4
+            if (/^4/.test(cleanNumber)) {
+                return 'Visa';
+            }
+            // Mastercard: starts with 51-55 or 2221-2720
+            if (/^5[1-5]/.test(cleanNumber) || /^2[2-7]/.test(cleanNumber)) {
+                return 'Mastercard';
+            }
+            // American Express: starts with 34 or 37
+            if (/^3[47]/.test(cleanNumber)) {
+                return 'American Express';
+            }
+            // Discover: starts with 6011, 622126-622925, 644-649, 65
+            if (/^6011|^62[2-8]|^64[4-9]|^65/.test(cleanNumber)) {
+                return 'Discover';
+            }
+            // UnionPay: starts with 62
+            if (/^62/.test(cleanNumber)) {
+                return 'UnionPay';
+            }
+            // JCB: starts with 3528-3589
+            if (/^35[2-8]/.test(cleanNumber)) {
+                return 'JCB';
+            }
+
+            return 'Card';
+        }
+
+        // Format card number with spaces
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '').replace(/\D/g, '');
+            let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+            input.value = formatted;
+
+            // Auto-detect and set card brand
+            const cardType = detectCardType(value);
+            document.getElementById('card_brand').value = cardType;
+        }
+
+        // Format month (01-12)
+        function formatMonth(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length === 1 && parseInt(value) > 1) {
+                value = '0' + value;
+            }
+            if (value.length === 2) {
+                let month = parseInt(value);
+                if (month < 1) value = '01';
+                if (month > 12) value = '12';
+            }
+            input.value = value;
+        }
+
+        // Format year (YYYY)
+        function formatYear(input) {
+            input.value = input.value.replace(/\D/g, '');
+        }
+
+        // Mask middle 8 digits of card number
+        function maskCardNumber(cardNumber) {
+            const cleanNumber = cardNumber.replace(/\s/g, '');
+            if (cleanNumber.length < 12) {
+                // If less than 12 digits, show as is with spaces
+                return cardNumber || '•••• •••• •••• ••••';
+            }
+
+            // Format: first 4 + masked 8 + last 4
+            const first4 = cleanNumber.substring(0, 4);
+            const last4 = cleanNumber.substring(cleanNumber.length - 4);
+            const masked = first4 + ' •••• •••• ' + last4;
+
+            return masked;
+        }
+
+        // Update card preview
+        function updatePreview() {
+            const holder = document.getElementById('card_holder').value || 'ТА НЭР';
+            const number = document.getElementById('card_number').value || '';
+            const month = document.getElementById('expiry_month').value || 'MM';
+            const year = document.getElementById('expiry_year').value || 'YYYY';
+            const brand = document.getElementById('card_brand').value || detectCardType(number) || 'CARD';
+
+            document.getElementById('previewHolder').textContent = holder.toUpperCase();
+            document.getElementById('previewNumber').textContent = maskCardNumber(number);
+            document.getElementById('previewExpiry').textContent = `${month}/${year}`;
+            document.getElementById('previewBrand').textContent = brand.toUpperCase();
+        }
+
+        // Prevent non-numeric input for card number
+        document.getElementById('card_number')?.addEventListener('keypress', function(e) {
+            if (!/\d/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                e.preventDefault();
+            }
+        });
+
+        // Prevent non-numeric input for month and year
+        ['expiry_month', 'expiry_year'].forEach(id => {
+            document.getElementById(id)?.addEventListener('keypress', function(e) {
+                if (!/\d/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 @endsection

@@ -115,12 +115,17 @@ class AdminSettingsController extends Controller
     public function updatePayment(Request $request)
     {
         $validated = $request->validate([
-            'cod_enabled' => 'required|boolean',
             'card_enabled' => 'required|boolean',
+            'qpay_enabled' => 'required|boolean',
+            'bank_transfer_enabled' => 'required|boolean',
         ]);
 
-        Setting::set('cod_enabled', $validated['cod_enabled'] ? '1' : '0', 'payment');
         Setting::set('card_enabled', $validated['card_enabled'] ? '1' : '0', 'payment');
+        Setting::set('qpay_enabled', $validated['qpay_enabled'] ? '1' : '0', 'payment');
+        Setting::set('bank_transfer_enabled', $validated['bank_transfer_enabled'] ? '1' : '0', 'payment');
+
+        // Backward compatibility for old cash-on-delivery setting
+        Setting::set('cod_enabled', $validated['qpay_enabled'] ? '1' : '0', 'payment');
 
         Setting::clearCache();
 
@@ -133,14 +138,14 @@ class AdminSettingsController extends Controller
     public function updateOrder(Request $request)
     {
         $validated = $request->validate([
-            'order_auto_pending' => 'nullable|boolean',
+            'order_auto_pending' => 'required|boolean',
             'free_shipping_threshold' => 'required|numeric|min:0',
-            'allow_refund' => 'nullable|boolean',
+            'allow_refund' => 'required|boolean',
         ]);
 
-        Setting::set('order_auto_pending', $request->has('order_auto_pending') ? '1' : '0', 'order');
+        Setting::set('order_auto_pending', $validated['order_auto_pending'] ? '1' : '0', 'order');
         Setting::set('free_shipping_threshold', $validated['free_shipping_threshold'], 'order');
-        Setting::set('allow_refund', $request->has('allow_refund') ? '1' : '0', 'order');
+        Setting::set('allow_refund', $validated['allow_refund'] ? '1' : '0', 'order');
 
         Setting::clearCache();
 
@@ -153,12 +158,12 @@ class AdminSettingsController extends Controller
     public function updateSecurity(Request $request)
     {
         $validated = $request->validate([
-            'admin_email_notifications' => 'nullable|boolean',
-            'maintenance_mode' => 'nullable|boolean',
+            'admin_email_notifications' => 'required|boolean',
+            'maintenance_mode' => 'required|boolean',
         ]);
 
-        Setting::set('admin_email_notifications', $request->has('admin_email_notifications') ? '1' : '0', 'security');
-        Setting::set('maintenance_mode', $request->has('maintenance_mode') ? '1' : '0', 'security');
+        Setting::set('admin_email_notifications', $validated['admin_email_notifications'] ? '1' : '0', 'security');
+        Setting::set('maintenance_mode', $validated['maintenance_mode'] ? '1' : '0', 'security');
 
         Setting::clearCache();
 

@@ -2,12 +2,9 @@
 
 @section('title', 'Захиалгууд')
 
-@section('content')
+@push('styles')
     <style>
         :root {
-            --bg-dark-primary: #0f172a;
-            --bg-dark-secondary: #1e293b;
-            --bg-card: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             --text-primary: #f1f5f9;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
@@ -378,13 +375,17 @@
         .empty-state i {
             font-size: 4.5rem;
             opacity: 0.2;
-            display: block;
+            display: flex;
+            justify-content: center;
             margin-bottom: 1.5rem;
-            animation: float 4s ease-in-out infinite;
+            animation: float 3s ease-in-out infinite;
         }
 
         .empty-state p {
             font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            color: #9f9f9fff;
             font-weight: 600;
         }
 
@@ -424,9 +425,9 @@
 
         .btn-close:hover {
             opacity: 1;
-        }=
+        }
 
-        .payment-icon {
+        =.payment-icon {
             font-size: 1.2rem;
         }
 
@@ -440,7 +441,9 @@
             background: transparent !important;
         }
     </style>
+@endpush
 
+@section('content')
     <div class="container-fluid py-4">
         <!-- Header -->
         <div class="admin-header">
@@ -499,8 +502,10 @@
                 <table class="table table-hover mb-0">
                     <thead class="table-light">
                         <tr>
+                            <th></th>
                             <th>Захиалгын №</th>
                             <th>Хэрэглэгч</th>
+                            <th>User ID</th>
                             <th>Огноо</th>
                             <th>Дүн</th>
                             <th>Статус</th>
@@ -517,7 +522,15 @@
                                 <td>
                                     <div class="user-name">{{ $order->user->name ?? 'N/A' }}</div>
                                     <small>{{ $order->user->email ?? '' }}</small>
+                                    
                                 </td>
+                                <td>
+                                    <div class="text-muted" style="font-size: 0.8rem;">
+                                        {{ $order->user->user_code ?? 'Код байхгүй' }}
+                                    </div>
+                                </td>
+                                
+                                {{ $order->user_id }}
                                 <td>
                                     <div class="date-display">{{ $order->created_at->format('Y-m-d') }}</div>
                                     <small>{{ $order->created_at->format('H:i') }}</small>

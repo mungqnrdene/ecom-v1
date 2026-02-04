@@ -2,12 +2,9 @@
 
 @section('title', 'Захиалгын дэлгэрэнгүй')
 
-@section('content')
+@push('styles')
     <style>
         :root {
-            --bg-dark-primary: #0f172a;
-            --bg-dark-secondary: #1e293b;
-            --bg-card: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             --text-primary: #f1f5f9;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
@@ -392,7 +389,9 @@
             opacity: 1;
         }
     </style>
+@endpush
 
+@section('content')
     <div class="container-fluid py-4">
         <div class="mb-4">
             <a href="{{ route('admin.orders') }}" class="btn back-btn">
@@ -504,7 +503,8 @@
                                     alt="{{ $item->product->name ?? ($item->product_name ?? 'Product') }}"
                                     class="product-img me-3">
                                 <div class="flex-grow-1">
-                                    <h6 class="mb-1">{{ $item->product->name ?? ($item->product_name ?? 'Устсан бараа') }}
+                                    <h6 class="mb-1">
+                                        {{ $item->product->name ?? ($item->product_name ?? 'Устсан бараа') }}
                                     </h6>
                                     <p class="text-muted mb-0">
                                         <i class="bi bi-hash me-1"></i>Тоо ширхэг: {{ $item->quantity }}
@@ -555,7 +555,8 @@
                         @method('PATCH')
                         <div class="flex-grow-1" style="min-width: 250px;">
                             <select name="status" class="form-select status-select">
-                                <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>⏳ Хүлээгдэж
+                                <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>⏳
+                                    Хүлээгдэж
                                     байна</option>
                                 <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>🔄
                                     Боловсруулж байна</option>

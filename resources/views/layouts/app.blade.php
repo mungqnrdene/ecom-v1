@@ -9,10 +9,17 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Custom CSS Files -->
+    <link rel="stylesheet" href="{{ asset('css/users.css') }}">
+
     @stack('styles')
 
     <style>
@@ -51,14 +58,104 @@
             background-clip: text;
         }
 
+        /* Enhanced Dropdown Styles */
+        .dropdown-toggle {
+            border: 1.5px solid rgba(59, 130, 246, 0.35);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(139, 92, 246, 0.18));
+            color: #e5e7eb;
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
+        }
+
+        .dropdown-toggle:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(139, 92, 246, 0.28));
+            border-color: rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        .dropdown-toggle:focus,
+        .dropdown-toggle:active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.32), rgba(139, 92, 246, 0.32));
+            border-color: rgba(59, 130, 246, 0.7);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            color: #fff;
+        }
+
         .dropdown-menu {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(16px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            background: rgba(10, 15, 30, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 14px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+            animation: dropdownFadeIn 0.25s ease;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            color: #e2e8f0;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropdown-item:last-child {
+            margin-bottom: 0;
         }
 
         .dropdown-item:hover {
-            background: rgba(59, 130, 246, 0.2);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(139, 92, 246, 0.35));
+            color: #fff;
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+        }
+
+        .dropdown-item:active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(139, 92, 246, 0.35));
+        }
+
+        .dropdown-divider {
+            border-color: rgba(255, 255, 255, 0.1);
+            margin: 0.5rem 0;
+        }
+
+        .dropdown-item.text-danger:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(220, 38, 38, 0.25));
+            color: #fca5a5;
+        }
+
+        /* Profile Picture in Dropdown Toggle */
+        .dropdown-toggle img,
+        .dropdown-toggle span[style*="border-radius: 50%"] {
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover img,
+        .dropdown-toggle:hover span[style*="border-radius: 50%"] {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
 
         /* Smooth scroll for better UX */
@@ -234,7 +331,7 @@
                         <input type="text" name="q" id="searchInput" class="search-input"
                             placeholder="🔍 Бараа хайх..." autocomplete="off">
                         <button type="submit" class="search-btn">
-                            <i class="bi bi-search">-></i>
+                            <i class="bi bi-search"></i>
                         </button>
                     </form>
                     <div class="search-results" id="searchResults"></div>
@@ -246,7 +343,7 @@
                 {{-- ================= ADMIN ================= --}}
                 @if (Auth::guard('admin')->check())
                     <div class="dropdown">
-                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
                             👤 {{ Auth::guard('admin')->user()->name }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
@@ -315,6 +412,12 @@
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
                             <li>
                                 <a class="dropdown-item"
+                                    href="{{ \Illuminate\Support\Facades\Route::has('users.dashboard') ? route('users.dashboard', ['section' => 'profile']) : '#' }}">
+                                    👤 Профайл
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
                                     href="{{ \Illuminate\Support\Facades\Route::has('users.dashboard') ? route('users.dashboard') : '#' }}">
                                     🏠 Нүүр
                                 </a>
@@ -366,6 +469,13 @@
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show m-3">
                 {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show m-3">
+                {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
@@ -523,6 +633,14 @@
             document.addEventListener('click', function(e) {
                 if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                     searchResults.classList.remove('show');
+                }
+            });
+
+            // Navigate when clicking a search result item
+            searchResults.addEventListener('click', function(e) {
+                const link = e.target.closest('.search-result-item');
+                if (link && link.href) {
+                    window.location.href = link.href;
                 }
             });
 

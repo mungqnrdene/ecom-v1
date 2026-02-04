@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Барау засах - Light Shop')
 
@@ -30,6 +30,32 @@
                         @enderror
                     </div>
 
+
+                    {{-- Quantity --}}
+                    <div class="col-md-3">
+                        <label for="quantity" class="form-label fw-semibold">
+                            <i class="bi bi-box-seam text-info me-2"></i>Тоо ширхэг *
+                        </label>
+                        <input type="number" min="0"
+                            class="form-control form-control-lg @error('quantity') is-invalid @enderror" id="quantity"
+                            name="quantity" value="{{ old('quantity', $product->quantity) }}" placeholder="0" required>
+                        @error('quantity')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- Size --}}
+                    <div class="col-md-3">
+                        <label for="size" class="form-label fw-semibold">
+                            <i class="bi bi-aspect-ratio text-warning me-2"></i>Size / Хэмжээ
+                        </label>
+                        <input type="text" class="form-control form-control-lg @error('size') is-invalid @enderror"
+                            id="size" name="size" value="{{ old('size', $product->size) }}"
+                            placeholder="Жишээ: S, M, L, 128GB">
+                        @error('size')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="col-md-6">
                         <label for="price" class="form-label">Үнэ (₮) *</label>
                         <input type="number" step="0.01" class="form-control @error('price') is-invalid @enderror"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\WishlistItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ class UserDashboardController extends Controller
         'cart',
         'orders',
         'payment',
+        'profile',
         'settings',
         'contact',
     ];
@@ -57,6 +59,7 @@ class UserDashboardController extends Controller
             'cart' => $this->loadCartData(),
             'orders' => $this->loadOrdersData(),
             'payment' => $this->loadPaymentData(),
+            'profile' => $this->loadProfileData(),
             'settings' => $this->loadSettingsData(),
             'contact' => $this->loadContactData(),
             default => [],
@@ -68,27 +71,23 @@ class UserDashboardController extends Controller
      */
     private function loadDashboardData(): array
     {
-        $searchQuery = request()->input('q', '');
-        $isSearching = !empty($searchQuery);
+        $categoryId = request()->input('category');
+        $categories = Category::with(['products' => function ($query) {
+            $query->latest();
+        }])->orderBy('name')->get();
 
-        if ($isSearching) {
-            $products = Product::with('category')
-                ->where('name', 'LIKE', "%{$searchQuery}%")
-                ->orWhere('description', 'LIKE', "%{$searchQuery}%")
-                ->orWhere('keywords', 'LIKE', "%{$searchQuery}%")
-                ->orWhereHas('category', function ($q) use ($searchQuery) {
-                    $q->where('name', 'LIKE', "%{$searchQuery}%");
-                })
-                ->latest()
-                ->get();
-        } else {
-            $products = Product::with('category')->latest()->get();
+        $selectedCategory = $categoryId ? Category::find($categoryId) : null;
+
+        // If a category is selected, filter categories
+        if ($selectedCategory) {
+            $categories = $categories->where('id', $categoryId);
         }
 
         return [
-            'products' => $products,
-            'searchQuery' => $searchQuery,
-            'isSearching' => $isSearching,
+            'categories' => $categories,
+            'allCategories' => Category::withCount('products')->orderBy('name')->get(),
+            'selectedCategory' => $selectedCategory,
+            'totalProducts' => Product::count(),
         ];
     }
 
@@ -146,6 +145,25 @@ class UserDashboardController extends Controller
     {
         return [
             'savedCards' => Auth::user()->savedCards()->orderBy('is_default', 'desc')->get(),
+        ];
+    }
+
+    /**
+     * Load profile data (read-only view)
+     */
+    private function loadProfileData(): array
+    {
+        $user = Auth::user();
+        $cartWithCount = $user->cart()->withCount('cartItems')->first();
+
+        return [
+            'user' => $user,
+            'stats' => [
+                'orders' => $user->orders()->count(),
+                'wishlist' => $user->wishlistItems()->count(),
+                'savedCards' => $user->savedCards()->count(),
+                'cartItems' => $cartWithCount?->cart_items_count ?? 0,
+            ],
         ];
     }
 

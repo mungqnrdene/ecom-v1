@@ -9,7 +9,7 @@ class GuestWelcomeController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::latest()->take(12)->get();
         return view("users.guest.guestwelcome", compact("products"));
     }
 

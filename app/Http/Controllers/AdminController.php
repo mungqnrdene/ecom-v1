@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,19 @@ class AdminController extends Controller
     public function welcome()
     {
         $admin = Auth::guard('admin')->user();
-        return view('admin.welcome', compact('admin'));
+        $categoriesForStrip = Category::withCount([
+            'products as admin_products_count' => function ($query) use ($admin) {
+                $query->where('admin_id', $admin->id);
+            },
+        ])->get();
+
+        $categories = Category::with([
+            'products' => function ($query) use ($admin) {
+                $query->where('admin_id', $admin->id)->latest();
+            },
+        ])->get();
+
+        return view('admin.welcome', compact('admin', 'categoriesForStrip', 'categories'));
     }
 
     // DASHBOARD PAGE
@@ -110,7 +123,21 @@ class AdminController extends Controller
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
         ]);
 
-        $order->update(['status' => $validated['status']]);
+        $oldStatus = $order->status;
+        $newStatus = $validated['status'];
+
+        // If order is being confirmed (moved to processing), decrease product quantities
+        if ($oldStatus === 'pending' && $newStatus === 'processing') {
+            foreach ($order->orderItems as $item) {
+                if ($item->product) {
+                    $product = $item->product;
+                    $newQuantity = max(0, $product->quantity - $item->quantity);
+                    $product->update(['quantity' => $newQuantity]);
+                }
+            }
+        }
+
+        $order->update(['status' => $newStatus]);
 
         return back()->with('success', 'Захиалгын төлөв амжилттай шинэчлэгдлээ.');
     }
@@ -141,5 +168,17 @@ class AdminController extends Controller
         $admin->update($validated);
 
         return back()->with('success', 'Тохиргоог амжилттай хадгаллаа.');
+    }
+
+    public function categoryProducts(Category $category)
+    {
+        $admin = Auth::guard('admin')->user();
+
+        $products = Product::where('admin_id', $admin->id)
+            ->where('category_id', $category->id)
+            ->latest()
+            ->paginate(16);
+
+        return view('admin.category-products', compact('admin', 'category', 'products'));
     }
 }

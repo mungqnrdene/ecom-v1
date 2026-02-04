@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_code',
         'name',
         'email',
         'password',
@@ -49,6 +50,24 @@ class User extends Authenticatable
         'last_login_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function (User $user) {
+            if (!$user->user_code) {
+                $user->user_code = static::generateUserCode();
+            }
+        });
+    }
+
+    public static function generateUserCode(): string
+    {
+        do {
+            $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        } while (static::where('user_code', $code)->exists());
+
+        return $code;
+    }
 
     // Хэрэглэгчийн сагс
     public function cart()

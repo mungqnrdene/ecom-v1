@@ -26,7 +26,8 @@ class OrderController extends Controller
         // Get payment method settings
         $paymentMethods = [
             'card' => setting('card_enabled', 1) == 1,
-            'cod' => setting('cod_enabled', 1) == 1,
+            'qpay' => setting('qpay_enabled', setting('cod_enabled', 1)) == 1,
+            'bank_transfer' => setting('bank_transfer_enabled', 1) == 1,
         ];
 
         return view('users.checkout.order', compact('cartItems', 'user', 'savedCards', 'paymentMethods'));
@@ -39,8 +40,11 @@ class OrderController extends Controller
         if (setting('card_enabled', 1) == 1) {
             $allowedMethods[] = 'card';
         }
-        if (setting('cod_enabled', 1) == 1) {
-            $allowedMethods[] = 'cash_on_delivery';
+        if (setting('qpay_enabled', setting('cod_enabled', 1)) == 1) {
+            $allowedMethods[] = 'qpay';
+        }
+        if (setting('bank_transfer_enabled', 1) == 1) {
+            $allowedMethods[] = 'bank_transfer';
         }
 
         if (empty($allowedMethods)) {
@@ -51,6 +55,7 @@ class OrderController extends Controller
             'phone'            => 'required|string|max:20',
             'shipping_address' => 'required|string|max:500',
             'payment_method'   => 'required|in:' . implode(',', $allowedMethods),
+            'saved_card_id'    => 'nullable|exists:saved_cards,id',
             'notes'            => 'nullable|string|max:1000',
         ], [
             'phone.required'            => 'Утасны дугаар заавал оруулна уу.',
@@ -110,7 +115,7 @@ class OrderController extends Controller
             DB::commit();
 
             // Redirect to payment based on method
-            return $this->redirectToPayment($order, $validated['payment_method']);
+            return $this->redirectToPayment($order, $validated['payment_method'], $validated['saved_card_id'] ?? null);
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Захиалга үүсгэхэд алдаа гарлаа: ' . $e->getMessage()]);
@@ -120,22 +125,34 @@ class OrderController extends Controller
     /**
      * Redirect to appropriate payment page
      */
-    protected function redirectToPayment(Order $order, string $paymentMethod)
+    protected function redirectToPayment(Order $order, string $paymentMethod, $savedCardId = null)
     {
         switch ($paymentMethod) {
             case 'card':
-                return redirect()->route('payment.card', ['order' => $order->id])
+                $route = route('payment.card', ['order' => $order->id]);
+                if ($savedCardId) {
+                    $route .= '?saved_card_id=' . $savedCardId;
+                }
+                return redirect($route)
                     ->with('success', 'Захиалга үүслээ. Төлбөр төлнө үү.');
 
-            case 'cash_on_delivery':
-                // For cash on delivery, mark as processing immediately
+            case 'qpay':
                 $order->update([
-                    'status' => 'processing',
+                    'status' => 'pending',
                     'payment_status' => 'pending_payment',
                 ]);
 
                 return redirect()->route('users.orders.show', ['order' => $order->id])
-                    ->with('success', 'Захиалга амжилттай үүслээ. Бараа хүргэхдээ төлбөр төлнө үү.');
+                    ->with('success', 'Захиалга амжилттай үүслээ. QPay төлбөрөө гүйцэтгэнэ үү.');
+
+            case 'bank_transfer':
+                $order->update([
+                    'status' => 'pending',
+                    'payment_status' => 'pending_payment',
+                ]);
+
+                return redirect()->route('users.orders.show', ['order' => $order->id])
+                    ->with('success', 'Захиалга амжилттай үүслээ. Дансаар шилжүүлгээ хийнэ үү.');
 
             default:
                 return redirect()->route('users.orders')

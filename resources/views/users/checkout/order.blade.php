@@ -396,6 +396,246 @@
             font-weight: 600;
             text-decoration: underline;
         }
+
+        /* Bank Transfer Section */
+        .bank-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .bank-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .bank-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .bank-item.selected {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .bank-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .bank-logo.khan {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+        }
+
+        .bank-logo.golomt {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+        }
+
+        .bank-logo.tdb {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+        }
+
+        .bank-logo.state {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: white;
+        }
+
+        .bank-name {
+            color: #e5e7eb;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .bank-account-details {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .bank-account-details.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .account-info {
+            margin-bottom: 15px;
+        }
+
+        .account-label {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .account-value {
+            color: #e5e7eb;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #60a5fa;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .copy-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.4);
+            color: #22c55e;
+        }
+
+        .transfer-note {
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 4px solid #fbbf24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .transfer-note p {
+            color: #fbbf24;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* QPay QR Section */
+        .qpay-section {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .qpay-section.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .qr-container {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            display: inline-block;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+        }
+
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+        }
+
+        .qpay-info {
+            color: #cbd5e1;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .qpay-info h5 {
+            color: #a78bfa;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .qpay-info p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .qpay-amount {
+            background: rgba(34, 197, 94, 0.15);
+            color: #34d399;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 15px 0;
+            border: 2px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .qpay-instructions {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #60a5fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .qpay-instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+            color: #cbd5e1;
+        }
+
+        .qpay-instructions li {
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
     </style>
 
     <!-- Header -->
@@ -491,7 +731,10 @@
                         <i class="bi bi-credit-card me-2"></i>Төлбөрийн хэлбэр <span class="text-danger">*</span>
                     </label>
 
-                    @if (!isset($paymentMethods['card']) && !isset($paymentMethods['cod']))
+                    @if (
+                        !($paymentMethods['card'] ?? false) &&
+                            !($paymentMethods['qpay'] ?? false) &&
+                            !($paymentMethods['bank_transfer'] ?? false))
                         <div class="alert alert-danger">
                             <i class="bi bi-exclamation-triangle"></i> Төлбөрийн аргагүй. Админ тал дээр тохиргоо хийнэ үү.
                         </div>
@@ -511,15 +754,29 @@
                                 </div>
                             @endif
 
-                            @if ($paymentMethods['cod'] ?? false)
+                            @if ($paymentMethods['qpay'] ?? false)
                                 <div class="payment-option">
-                                    <input type="radio" id="payment_cash" name="payment_method" value="cash_on_delivery"
+                                    <input type="radio" id="payment_qpay" name="payment_method" value="qpay"
                                         class="payment-radio"
-                                        {{ old('payment_method', !($paymentMethods['card'] ?? false) ? 'cash_on_delivery' : '') === 'cash_on_delivery' ? 'checked' : '' }}>
-                                    <label for="payment_cash" class="payment-label">
-                                        <i class="bi bi-cash-coin"></i>
-                                        <span>Бэлэн мөнгө</span>
-                                        <small>Хүргэхдээ төлнө</small>
+                                        {{ old('payment_method', !($paymentMethods['card'] ?? false) && ($paymentMethods['qpay'] ?? false) ? 'qpay' : '') === 'qpay' ? 'checked' : '' }}>
+                                    <label for="payment_qpay" class="payment-label">
+                                        <i class="bi bi-qr-code"></i>
+                                        <span>QPay</span>
+                                        <small>QR код төлбөр</small>
+                                    </label>
+                                </div>
+                            @endif
+
+                            <!-- Bank Transfer Option -->
+                            @if ($paymentMethods['bank_transfer'] ?? false)
+                                <div class="payment-option">
+                                    <input type="radio" id="payment_transfer" name="payment_method" value="bank_transfer"
+                                        class="payment-radio"
+                                        {{ old('payment_method') === 'bank_transfer' ? 'checked' : '' }}>
+                                    <label for="payment_transfer" class="payment-label">
+                                        <i class="bi bi-bank"></i>
+                                        <span>Дансаар шилжүүлэх</span>
+                                        <small>Банкны шилжүүлэг</small>
                                     </label>
                                 </div>
                             @endif
@@ -531,12 +788,123 @@
                     @enderror
                 </div>
 
+                @if ($paymentMethods['bank_transfer'] ?? false)
+                    <!-- Bank Transfer Section (shown when bank transfer selected) -->
+                    <div id="bankTransferSection" style="display: none;">
+                        <label class="form-label">
+                            <i class="bi bi-bank me-2"></i>Банк сонгох
+                        </label>
+                        <div class="bank-list">
+                            <div class="bank-item" onclick="selectBank('khan')" data-bank="khan">
+                                <div class="bank-logo khan">
+                                    <i class="bi bi-bank"></i>
+                                </div>
+                                <div class="bank-name">Хаан банк</div>
+                            </div>
+                            <div class="bank-item" onclick="selectBank('golomt')" data-bank="golomt">
+                                <div class="bank-logo golomt">
+                                    <i class="bi bi-building"></i>
+                                </div>
+                                <div class="bank-name">Голомт банк</div>
+                            </div>
+                            <div class="bank-item" onclick="selectBank('tdb')" data-bank="tdb">
+                                <div class="bank-logo tdb">
+                                    <i class="bi bi-cash-stack"></i>
+                                </div>
+                                <div class="bank-name">Худалдаа Хөгжлийн банк</div>
+                            </div>
+                            <div class="bank-item" onclick="selectBank('state')" data-bank="state">
+                                <div class="bank-logo state">
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                                <div class="bank-name">Төрийн банк</div>
+                            </div>
+                        </div>
+
+                        <!-- Bank Account Details -->
+                        <div id="bankAccountDetails" class="bank-account-details">
+                            <div class="account-info">
+                                <div class="account-label">Банкны нэр:</div>
+                                <div class="account-value">
+                                    <span id="selectedBankName"></span>
+                                </div>
+                            </div>
+                            <div class="account-info">
+                                <div class="account-label">Дансны дугаар:</div>
+                                <div class="account-value">
+                                    <span id="accountNumber"></span>
+                                    <button type="button" class="copy-btn" onclick="copyAccount()">
+                                        <i class="bi bi-clipboard"></i> Хуулах
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="account-info">
+                                <div class="account-label">Дансны нэр:</div>
+                                <div class="account-value">
+                                    <span id="accountName"></span>
+                                </div>
+                            </div>
+                            <div class="transfer-note">
+                                <p>
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <strong>Анхаар:</strong> Гүйлгээний утга н дээр н өөрийн хаягны ID утасны дугаар бичнэ үү!.
+                                </p>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="selected_bank" id="selectedBankInput">
+                    </div>
+                @endif
+
+                @if ($paymentMethods['qpay'] ?? false)
+                    <!-- QPay QR Section (shown when QPay selected) -->
+                    <div id="qpaySection" class="qpay-section">
+                        <div class="qpay-info">
+                            <h5>
+                                <i class="bi bi-qr-code me-2"></i>QPay QR код уншуулна уу
+                            </h5>
+                            <p>Өөрийн банкны аппликэйшн эсвэл QPay апп ашиглан QR код уншуулна уу</p>
+                        </div>
+
+                        <div class="qpay-amount">
+                            <i
+                                class="bi bi-currency-exchange me-2"></i>{{ number_format($cartItems->sum('total_price')) }}₮
+                        </div>
+
+                        <div class="qr-container">
+                            <div class="qr-code" id="qrCode">
+                                <!-- QR Code will be generated here -->
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=qpay://order/{{ uniqid() }}?amount={{ $cartItems->sum('total_price') }}"
+                                    alt="QPay QR Code" style="width: 100%; height: 100%; border-radius: 8px;">
+                            </div>
+                        </div>
+
+                        <div class="qpay-instructions">
+                            <p><strong><i class="bi bi-info-circle me-2"></i>Төлбөр төлөх заавар:</strong></p>
+                            <ol>
+                                <li>Банкны эсвэл QPay аппликэйшн нээнэ үү</li>
+                                <li>QR код уншуулах хэсэг рүү орно уу</li>
+                                <li>Дээрх QR кодыг уншуулна уу</li>
+                                <li>Төлбөрийн дүн болон мэдээллийг шалгана уу</li>
+                                <li>Төлбөр баталгаажуулна уу</li>
+                                <li>"Захиалга батлах" товч дарж захиалгаа дуусгана уу</li>
+                            </ol>
+                        </div>
+                    </div>
+                @endif
+
                 <!-- Saved Cards (shown when card payment selected) -->
                 @if ($paymentMethods['card'] ?? false)
                     <div id="savedCardsSection" style="display: none;">
                         <label class="form-label">
                             <i class="bi bi-wallet2 me-2"></i>Хадгалсан картууд
                         </label>
+                        <div class="alert alert-info mb-3"
+                            style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 12px; border-radius: 10px;">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <small>Хадгалсан картаа сонгоход төлбөрийн хуудсанд картын мэдээлэл автоматаар
+                                бөглөгдөнө</small>
+                        </div>
                         @if ($savedCards->isNotEmpty())
                             <div class="saved-cards-list mb-3">
                                 @foreach ($savedCards as $card)
@@ -592,6 +960,30 @@
     </form>
 
     <script>
+        // Bank account data
+        const bankAccounts = {
+            khan: {
+                name: 'Хаан банк',
+                accountNumber: 'MN45000500 57300088570',
+                accountName: 'Light Shop ХХК'
+            },
+            golomt: {
+                name: 'Голомт банк',
+                accountNumber: 'MN45001500 1805269937',
+                accountName: 'Light Shop ХХК'
+            },
+            tdb: {
+                name: 'Худалдаа Хөгжлийн банк',
+                accountNumber: 'MN45000500 57300088570',
+                accountName: 'Light Shop ХХК'
+            },
+            state: {
+                name: 'Төрийн банк',
+                accountNumber: 'MN45000500 57300088570',
+                accountName: 'Light Shop ХХК'
+            }
+        };
+
         // Toggle saved cards section based on payment method
         function toggleSavedCards() {
             const cardRadio = document.getElementById('payment_card');
@@ -602,14 +994,96 @@
             }
         }
 
+        // Toggle bank transfer section
+        function toggleBankTransfer() {
+            const transferRadio = document.getElementById('payment_transfer');
+            const bankTransferSection = document.getElementById('bankTransferSection');
+
+            if (transferRadio && bankTransferSection) {
+                bankTransferSection.style.display = transferRadio.checked ? 'block' : 'none';
+            }
+        }
+
+        // Toggle QPay section
+        function toggleQPay() {
+            const qpayRadio = document.getElementById('payment_qpay');
+            const qpaySection = document.getElementById('qpaySection');
+
+            if (qpayRadio && qpaySection) {
+                if (qpayRadio.checked) {
+                    qpaySection.classList.add('show');
+                } else {
+                    qpaySection.classList.remove('show');
+                }
+            }
+        }
+
+        // Select bank and show account details
+        function selectBank(bankCode) {
+            // Remove selected class from all banks
+            document.querySelectorAll('.bank-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Add selected class to clicked bank
+            const selectedBank = document.querySelector(`[data-bank="${bankCode}"]`);
+            if (selectedBank) {
+                selectedBank.classList.add('selected');
+            }
+
+            // Get bank details
+            const bank = bankAccounts[bankCode];
+            if (bank) {
+                // Update account details
+                document.getElementById('selectedBankName').textContent = bank.name;
+                document.getElementById('accountNumber').innerHTML = `
+                    <span>${bank.accountNumber}</span>
+                    <button type="button" class="copy-btn" onclick="copyAccount()">
+                        <i class="bi bi-clipboard"></i> Хуулах
+                    </button>
+                `;
+                document.getElementById('accountName').textContent = bank.accountName;
+                document.getElementById('selectedBankInput').value = bankCode;
+
+                // Show account details section
+                const detailsSection = document.getElementById('bankAccountDetails');
+                detailsSection.classList.add('show');
+            }
+        }
+
+        // Copy account number to clipboard
+        function copyAccount() {
+            const accountNumber = document.getElementById('accountNumber').querySelector('span').textContent;
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                // Show success feedback
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.classList.add('copied');
+                copyBtn.innerHTML = '<i class="bi bi-check-circle"></i> Хуулагдсан';
+
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    copyBtn.innerHTML = originalHTML;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             toggleSavedCards();
+            toggleBankTransfer();
+            toggleQPay();
 
             // Listen for payment method changes
             const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
             paymentRadios.forEach(radio => {
-                radio.addEventListener('change', toggleSavedCards);
+                radio.addEventListener('change', function() {
+                    toggleSavedCards();
+                    toggleBankTransfer();
+                    toggleQPay();
+                });
             });
         });
 

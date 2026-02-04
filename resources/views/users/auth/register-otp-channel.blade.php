@@ -4,61 +4,6 @@
 
 @push('styles')
     <style>
-        .auth-wrapper {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
-        }
-
-        .auth-container {
-            width: 100%;
-            max-width: 540px;
-        }
-
-        .auth-card {
-            background: rgba(15, 23, 42, 0.9);
-            border-radius: 24px;
-            padding: clamp(24px, 5vw, 40px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
-        }
-
-        .auth-title {
-            font-size: clamp(1.5rem, 4vw, 2.25rem);
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 12px;
-            color: #f1f5f9;
-        }
-
-        .auth-subtitle {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 24px;
-        }
-
-        .auth-alert {
-            display: block;
-            margin-bottom: 20px;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            background: rgba(34, 197, 94, 0.1);
-            color: #bbf7d0;
-        }
-
-        .auth-alert.auth-alert-error {
-            border-color: rgba(248, 113, 113, 0.4);
-            background: rgba(248, 113, 113, 0.1);
-            color: #fecaca;
-        }
-
         .channel-grid {
             display: grid;
             gap: 16px;
@@ -126,39 +71,6 @@
         .channel-value {
             font-size: 0.9rem;
             color: #94a3b8;
-        }
-
-        .auth-btn {
-            width: 100%;
-            padding: 14px;
-            margin-top: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
-            background: linear-gradient(135deg, #a855f7, #ec4899);
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 12px 30px rgba(168, 85, 247, 0.35);
-        }
-
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 18px 40px rgba(168, 85, 247, 0.5);
-        }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        .auth-footer a {
-            color: #c084fc;
-            font-weight: 600;
-            text-decoration: none;
         }
     </style>
 @endpush

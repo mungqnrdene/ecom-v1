@@ -15,7 +15,7 @@ class PaymentController extends Controller
     /**
      * Show card payment form
      */
-    public function showCardPayment($orderId)
+    public function showCardPayment(Request $request, $orderId)
     {
         $order = Order::with('orderItems.product')
             ->where('id', $orderId)
@@ -27,7 +27,18 @@ class PaymentController extends Controller
                 ->with('info', 'Энэ захиалгын төлбөр аль хэдийн төлөгдсөн байна.');
         }
 
-        return view('users.payment.card', compact('order'));
+        // Load saved card if provided
+        $savedCard = null;
+        if ($request->has('saved_card_id')) {
+            $savedCard = SavedCard::where('id', $request->saved_card_id)
+                ->where('user_id', Auth::id())
+                ->first();
+        }
+
+        // Load all saved cards for selection
+        $savedCards = Auth::user()->savedCards()->orderBy('is_default', 'desc')->get();
+
+        return view('users.payment.card', compact('order', 'savedCard', 'savedCards'));
     }
 
     /**

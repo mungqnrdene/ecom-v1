@@ -91,7 +91,7 @@
 @endpush
 
 <div class="d-flex align-items-center justify-content-between mb-4">
-    <h3 class="mb-0">❤️ Миний хадгалсан</h3>
+    <h3 class="mb-0">Миний хадгалсан</h3>
     <a href="{{ route('users.dashboard', 'products') }}" class="btn btn-sm btn-outline-light">Бараа үзэх</a>
 </div>
 

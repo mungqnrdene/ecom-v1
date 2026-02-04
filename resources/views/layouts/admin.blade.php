@@ -15,6 +15,9 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Custom CSS Files -->
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -29,7 +32,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark admin-navbar">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
+            <a class="navbar-brand" href="{{ route('admin.welcome') }}">
                 🏪 Light Shop Admin
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
@@ -78,6 +81,33 @@
     </nav>
 
     <main>
+        <!-- FLASH MESSAGES -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show m-3">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show m-3">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show m-3">
+                <strong>Алдаа:</strong>
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 

@@ -15,15 +15,39 @@
         margin: 0;
     }
 
+
+
     /* Order Card */
+
+    .card-content {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        align-items: stretch;
+    }
+
+    @media (max-width: 1200px) {
+        .card-content {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .card-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
     .order-card {
         background: rgba(15, 23, 42, 0.85);
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.08);
         overflow: hidden;
-        margin-bottom: 24px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        display: flex;
+        flex-direction: column;
+        height: auto;
     }
 
     .order-card:hover {
@@ -35,12 +59,12 @@
     .order-header {
         background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), rgba(245, 158, 11, 0.25));
         color: #e5e7eb;
-        padding: 18px 24px;
+        padding: 14px 20px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .order-number {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 700;
         letter-spacing: 0.5px;
         color: #e5e7eb;
@@ -48,14 +72,14 @@
 
     .order-date {
         color: #9ca3af;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     /* Status Badges */
     .status-badge {
-        padding: 8px 16px;
+        padding: 6px 12px;
         border-radius: 20px;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
@@ -100,16 +124,36 @@
 
     /* Order Body */
     .order-body {
-        padding: 24px;
+        padding: 16px 20px;
     }
 
     .order-items-label {
         color: #9ca3af;
-        font-size: 0.85rem;
-        margin-bottom: 10px;
+        font-size: 0.8rem;
+        margin-bottom: 12px;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+    }
+
+    /* Order Items Grid */
+    .order-items-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    @media (max-width: 768px) {
+        .order-items-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .order-items-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     /* Order Item */
@@ -118,49 +162,51 @@
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 10px;
         padding: 10px;
-        margin-bottom: 8px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 12px;
+        text-align: center;
+        gap: 8px;
         transition: all 0.3s ease;
     }
 
     .order-item:hover {
         background: rgba(255, 255, 255, 0.05);
         border-color: rgba(59, 130, 246, 0.2);
-    }
-
-    .order-item:last-child {
-        margin-bottom: 0;
+        transform: translateY(-2px);
     }
 
     .order-item-img {
-        width: 45px;
-        height: 45px;
+        width: 70px;
+        height: 70px;
         object-fit: cover;
-        border-radius: 8px;
+        border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        flex-shrink: 0;
     }
 
     .order-item-name {
         color: #e5e7eb;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         line-height: 1.3;
+        width: 100%;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .order-item-meta {
         color: #9ca3af;
-        font-size: 0.8rem;
-        margin-top: 2px;
+        font-size: 0.75rem;
+        width: 100%;
     }
 
     .order-item-price {
         color: #34d399;
         font-weight: 700;
-        font-size: 0.95rem;
-        white-space: nowrap;
+        font-size: 0.9rem;
+        width: 100%;
     }
 
     /* Order Details */
@@ -192,6 +238,16 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 16px;
+    }
+
+    .order-actions {
+        gap: 8px !important;
+    }
+
+    .order-actions .btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+        border-radius: 10px;
     }
 
     .total-section {
@@ -327,120 +383,122 @@
         </a>
     </div>
 @else
-    @foreach ($data['orders'] as $order)
-        <div class="order-card">
-            <!-- Order Header -->
-            <div class="order-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <div>
-                    <div class="order-number">{{ $order->order_number }}</div>
-                    <small class="order-date">{{ $order->created_at->format('Y-m-d H:i') }}</small>
-                </div>
-                <div>
-                    @if ($order->status === 'pending')
-                        <span class="status-badge status-pending">
-                            <i class="bi bi-clock-history"></i> Хүлээгдэж байна
-                        </span>
-                    @elseif($order->status === 'processing')
-                        <span class="status-badge status-processing">
-                            <i class="bi bi-gear"></i> Боловсруулж байна
-                        </span>
-                    @elseif($order->status === 'paid')
-                        <span class="status-badge status-paid">
-                            <i class="bi bi-check-circle"></i> Төлөгдсөн
-                        </span>
-                    @elseif($order->status === 'completed')
-                        <span class="status-badge status-completed">
-                            <i class="bi bi-check-circle"></i> Хүргэгдсэн
-                        </span>
-                    @elseif($order->status === 'refunded')
-                        <span class="status-badge status-refunded">
-                            <i class="bi bi-arrow-return-left"></i> Буцаасан
-                        </span>
-                    @elseif($order->status === 'failed')
-                        <span class="status-badge status-failed">
-                            <i class="bi bi-x-circle"></i> Амжилтгүй
-                        </span>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Order Body -->
-            <div class="order-body">
-                <!-- Order Items Preview -->
-                <div class="mb-3">
-                    <div class="order-items-label">
-                        <i class="bi bi-bag-check me-1"></i>Барааны жагсаалт
+    <div class="card-content">
+        @foreach ($data['orders'] as $order)
+            <div class="order-card">
+                <!-- Order Header -->
+                <div class="order-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <div class="order-number">{{ $order->order_number }}</div>
+                        <small class="order-date">{{ $order->created_at->format('Y-m-d H:i') }}</small>
                     </div>
-                    @foreach ($order->orderItems->take(3) as $item)
-                        <div class="order-item">
-                            <img src="{{ $item->product && $item->product->image ? asset('storage/' . $item->product->image) : 'https://via.placeholder.com/45' }}"
-                                alt="{{ $item->product_name ?? 'Product' }}" class="order-item-img">
-                            <div style="flex: 1; min-width: 0;">
-                                <div class="order-item-name text-truncate">
-                                    {{ $item->product_name ?? ($item->product->name ?? 'Устсан бараа') }}</div>
-                                <div class="order-item-meta">
-                                    <i class="bi bi-x" style="font-size: 0.7rem;"></i>{{ $item->quantity }} ×
-                                    {{ number_format($item->price_at_purchase) }}₮
-                                </div>
-                            </div>
-                            <div class="order-item-price">{{ number_format($item->subtotal) }}₮</div>
-                        </div>
-                    @endforeach
-                    @if ($order->orderItems->count() > 3)
-                        <div class="more-items-badge mt-2">
-                            <i class="bi bi-three-dots"></i> {{ $order->orderItems->count() - 3 }} бусад бараа
-                        </div>
-                    @endif
-                </div>
-
-                <!-- Order Details -->
-                <div class="order-details">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <span class="detail-label">Утас:</span>
-                            <span class="detail-value">{{ $order->phone }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="detail-label">Хүргэлтийн хаяг:</span>
-                            <span class="detail-value">{{ Str::limit($order->shipping_address, 50) }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Total & Actions -->
-                <div class="order-footer">
-                    <div class="total-section">
-                        <div class="total-label">Нийт дүн</div>
-                        <h5 class="total-amount">{{ number_format($order->total_amount) }}₮</h5>
-                    </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <a href="{{ route('users.orders.show', $order) }}" class="btn view-btn">
-                            <i class="bi bi-eye me-1"></i>Дэлгэрэнгүй
-                        </a>
-                        @php
-                            $refundDeadline = $order->created_at->copy()->addMinutes(5);
-                            $canRefund = now()->lessThanOrEqualTo($refundDeadline) && $order->status !== 'refunded';
-                        @endphp
-                        @if (setting('allow_refund', 1) == 1 && $canRefund)
-                            <form action="{{ route('users.orders.refund', $order) }}" method="POST"
-                                onsubmit="return confirm('Та энэ захиалгыг буцаахдаа итгэлтэй байна уу?')">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit" class="btn refund-btn">
-                                    <i class="bi bi-arrow-return-left me-1"></i>Буцаах
-                                </button>
-                            </form>
-                        @elseif(setting('allow_refund', 1) == 1 && $order->status !== 'refunded')
-                            <button type="button" class="btn btn-sm btn-secondary" disabled
-                                title="Буцаалтын хугацаа дууссан (5 минут)">
-                                <i class="bi bi-clock-history me-1"></i>Хугацаа дууссан
-                            </button>
+                    <div>
+                        @if ($order->status === 'pending')
+                            <span class="status-badge status-pending">
+                                <i class="bi bi-clock-history"></i> Хүлээгдэж байна
+                            </span>
+                        @elseif($order->status === 'processing')
+                            <span class="status-badge status-processing">
+                                <i class="bi bi-gear"></i> Боловсруулж байна
+                            </span>
+                        @elseif($order->status === 'paid')
+                            <span class="status-badge status-paid">
+                                <i class="bi bi-check-circle"></i> Төлөгдсөн
+                            </span>
+                        @elseif($order->status === 'completed')
+                            <span class="status-badge status-completed">
+                                <i class="bi bi-check-circle"></i> Хүргэгдсэн
+                            </span>
+                        @elseif($order->status === 'refunded')
+                            <span class="status-badge status-refunded">
+                                <i class="bi bi-arrow-return-left"></i> Буцаасан
+                            </span>
+                        @elseif($order->status === 'failed')
+                            <span class="status-badge status-failed">
+                                <i class="bi bi-x-circle"></i> Амжилтгүй
+                            </span>
                         @endif
                     </div>
                 </div>
+
+                <!-- Order Body -->
+                <div class="order-body">
+                    <!-- Order Items Preview -->
+                    <div class="mb-3">
+                        <div class="order-items-label">
+                            <i class="bi bi-bag-check me-1"></i>Барааны жагсаалт ({{ $order->orderItems->count() }})
+                        </div>
+                        <div class="order-items-grid">
+                            @foreach ($order->orderItems as $item)
+                                <div class="order-item">
+                                    <img src="{{ $item->product && $item->product->image ? asset('storage/' . $item->product->image) : 'https://via.placeholder.com/70' }}"
+                                        alt="{{ $item->product_name ?? 'Product' }}" class="order-item-img">
+                                    <div class="order-item-name">
+                                        {{ $item->product_name ?? ($item->product->name ?? 'Устсан бараа') }}
+                                    </div>
+                                    <div class="order-item-meta">
+                                        <i class="bi bi-x" style="font-size: 0.7rem;"></i>{{ $item->quantity }} ×
+                                        {{ number_format($item->price_at_purchase) }}₮
+                                    </div>
+                                    <div class="order-item-price">{{ number_format($item->subtotal) }}₮</div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Order Details -->
+                    <div class="order-details">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <span class="detail-label">Хэрэглэгчийн код:</span>
+                                <span class="detail-value">{{ Auth::user()->user_code ?? $order->user_id }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="detail-label">Утас:</span>
+                                <span class="detail-value">{{ $order->phone }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="detail-label">Хүргэлтийн хаяг:</span>
+                                <span class="detail-value">{{ Str::limit($order->shipping_address, 50) }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total & Actions -->
+                    <div class="order-footer">
+                        <div class="total-section">
+                            <div class="total-label">Нийт дүн</div>
+                            <h5 class="total-amount">{{ number_format($order->total_amount) }}₮</h5>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap order-actions">
+                            <a href="{{ route('users.orders.show', $order) }}" class="btn view-btn">
+                                <i class="bi bi-eye me-1"></i>Дэлгэрэнгүй
+                            </a>
+                            @php
+                                $refundDeadline = $order->created_at->copy()->addMinutes(5);
+                                $canRefund = now()->lessThanOrEqualTo($refundDeadline) && $order->status !== 'refunded';
+                            @endphp
+                            @if (setting('allow_refund', 1) == 1 && $canRefund)
+                                <form action="{{ route('users.orders.refund', $order) }}" method="POST"
+                                    onsubmit="return confirm('Та энэ захиалгыг буцаахдаа итгэлтэй байна уу?')">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn refund-btn">
+                                        <i class="bi bi-arrow-return-left me-1"></i>Буцаах
+                                    </button>
+                                </form>
+                            @elseif(setting('allow_refund', 1) == 1 && $order->status !== 'refunded')
+                                <button type="button" class="btn btn-sm btn-secondary" disabled
+                                    title="Буцаалтын хугацаа дууссан (5 минут)">
+                                    <i class="bi bi-clock-history me-1"></i>Хугацаа дууссан
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 
     <!-- Pagination -->
     <div class="d-flex justify-content-center mt-4">

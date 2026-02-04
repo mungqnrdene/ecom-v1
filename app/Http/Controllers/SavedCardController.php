@@ -27,13 +27,21 @@ class SavedCardController extends Controller
      */
     public function store(Request $request)
     {
+        $normalizedCardNumber = preg_replace('/\D/', '', (string) $request->card_number);
+        $request->merge([
+            'card_number' => $normalizedCardNumber,
+        ]);
+
         $validated = $request->validate([
             'card_holder' => 'required|string|max:100',
-            'card_number' => 'required|string|size:16',
+            'card_number' => 'required|digits:16',
             'card_brand' => 'nullable|string|max:50',
             'expiry_month' => 'required|string|size:2',
             'expiry_year' => 'required|string|size:4',
             'is_default' => 'boolean',
+        ], [
+            'card_number.required' => 'Картын дугаар оруулна уу.',
+            'card_number.digits' => 'Картын дугаар 16 оронтой байх ёстой.',
         ]);
 
         // If this card is set as default, remove default from other cards

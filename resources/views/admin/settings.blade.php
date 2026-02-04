@@ -222,7 +222,8 @@
                             @method('PATCH')
 
                             <div class="alert alert-info">
-                                <i class="fas fa-info-circle"></i> Идэвхгүй болгосон төлбөрийн хэлбэр хэрэглэгчийн checkout
+                                <i class="fas fa-info-circle"></i> Идэвхгүй болгосон төлбөрийн хэрэгсэл хэрэглэгчийн
+                                худалдан авагчын
                                 хуудсанд харагдахгүй.
                             </div>
 
@@ -232,17 +233,29 @@
                                     value="1" {{ setting('card_enabled', 1) == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label" for="card_enabled">
                                     <strong>Карт төлбөр идэвхтэй</strong>
-                                    <br><small class="text-muted">Visa, Mastercard гэх мэт картаар төлөх</small>
+                                    <br><small class="text-muted">Visa, Mastercard картаар төлөх</small>
+                                </label>
+                            </div>
+
+                            <div class="form-check form-switch mb-3">
+                                <input type="hidden" name="qpay_enabled" value="0">
+                                <input class="form-check-input" type="checkbox" id="qpay_enabled" name="qpay_enabled"
+                                    value="1"
+                                    {{ setting('qpay_enabled', setting('cod_enabled', 1)) == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="qpay_enabled">
+                                    <strong>QPay идэвхтэй</strong>
+                                    <br><small class="text-muted">QR кодоор төлөх</small>
                                 </label>
                             </div>
 
                             <div class="form-check form-switch mb-4">
-                                <input type="hidden" name="cod_enabled" value="0">
-                                <input class="form-check-input" type="checkbox" id="cod_enabled" name="cod_enabled"
-                                    value="1" {{ setting('cod_enabled', 1) == 1 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="cod_enabled">
-                                    <strong>Бэлэн төлбөр идэвхтэй</strong>
-                                    <br><small class="text-muted">Хүргэхдээ бэлнээр төлөх</small>
+                                <input type="hidden" name="bank_transfer_enabled" value="0">
+                                <input class="form-check-input" type="checkbox" id="bank_transfer_enabled"
+                                    name="bank_transfer_enabled" value="1"
+                                    {{ setting('bank_transfer_enabled', 1) == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="bank_transfer_enabled">
+                                    <strong>Дансаар шилжүүлэх идэвхтэй</strong>
+                                    <br><small class="text-muted">Банкны шилжүүлэг</small>
                                 </label>
                             </div>
 
@@ -262,8 +275,9 @@
                             @method('PATCH')
 
                             <div class="form-check form-switch mb-3">
+                                <input type="hidden" name="order_auto_pending" value="0">
                                 <input class="form-check-input" type="checkbox" id="order_auto_pending"
-                                    name="order_auto_pending"
+                                    name="order_auto_pending" value="1"
                                     {{ setting('order_auto_pending', 1) == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label" for="order_auto_pending">
                                     <strong>Шинэ захиалгыг автоматаар "Хүлээгдэж байна" статустай үүсгэх</strong>
@@ -281,8 +295,9 @@
                             </div>
 
                             <div class="form-check form-switch mb-4">
+                                <input type="hidden" name="allow_refund" value="0">
                                 <input class="form-check-input" type="checkbox" id="allow_refund" name="allow_refund"
-                                    {{ setting('allow_refund', 1) == 1 ? 'checked' : '' }}>
+                                    value="1" {{ setting('allow_refund', 1) == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label" for="allow_refund">
                                     <strong>Буцаалт зөвшөөрөх</strong>
                                     <br><small class="text-muted">Идэвхгүй бол буцаалтын товч харагдахгүй</small>
@@ -338,8 +353,9 @@
                                     @method('PATCH')
 
                                     <div class="form-check form-switch mb-3">
+                                        <input type="hidden" name="admin_email_notifications" value="0">
                                         <input class="form-check-input" type="checkbox" id="admin_email_notifications"
-                                            name="admin_email_notifications"
+                                            name="admin_email_notifications" value="1"
                                             {{ setting('admin_email_notifications', 1) == 1 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="admin_email_notifications">
                                             <strong>Имэйл мэдэгдэл илгээх</strong>
@@ -348,8 +364,9 @@
                                     </div>
 
                                     <div class="form-check form-switch mb-4">
+                                        <input type="hidden" name="maintenance_mode" value="0">
                                         <input class="form-check-input" type="checkbox" id="maintenance_mode"
-                                            name="maintenance_mode"
+                                            name="maintenance_mode" value="1"
                                             {{ setting('maintenance_mode', 0) == 1 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="maintenance_mode">
                                             <strong>Засвар үйлчилгээний горим</strong>
@@ -366,38 +383,4 @@
             </div>
         </div>
     </div>
-
-    <style>
-        .nav-tabs {
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-tabs .nav-link {
-            color: #94a3b8;
-            border: none;
-            border-bottom: 2px solid transparent;
-            padding: 12px 24px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-tabs .nav-link:hover {
-            color: #e2e8f0;
-            border-bottom-color: rgba(59, 130, 246, 0.5);
-        }
-
-        .nav-tabs .nav-link.active {
-            color: #60a5fa;
-            background: transparent;
-            border-bottom-color: #60a5fa;
-        }
-
-        .form-check-input:checked {
-            background-color: #10b981;
-            border-color: #10b981;
-        }
-
-        .form-control-plaintext {
-            color: #e2e8f0;
-        }
-    </style>
 @endsection

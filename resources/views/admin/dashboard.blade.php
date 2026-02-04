@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Dashboard - Light Shop')
 
@@ -7,7 +7,7 @@
         <div class="admin-page-header">
             <div>
                 <span class="admin-eyebrow">Admin overview</span>
-                <h1 class="admin-page-title">Төвлөрсөн самбар</h1>
+                <h1 class="admin-page-title">Самбар</h1>
                 <p class="admin-page-subtitle">
                     👋 Сайн байна уу, {{ $admin->name }}. Таны мэдээлэл, борлуулалт болон системийн гол үзүүлэлтүүд эндээс
                     харагдана.

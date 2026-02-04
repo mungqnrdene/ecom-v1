@@ -2,32 +2,6 @@
 
 @section('title', 'Холбоо барих - Light Shop')
 
-@push('styles')
-    <style>
-        .contact-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
-            border-radius: 20px;
-            padding: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-            transition: all .3s ease;
-        }
-
-        .contact-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
-        }
-
-        .contact-card.contact-card--compact {
-            padding: 22px;
-        }
-
-        .contact-label {
-            font-weight: 600
-        }
-    </style>
-@endpush
-
 @section('page')
     <h2 class="mb-4">📞 Холбоо барих</h2>
 

@@ -19,9 +19,70 @@ class CartController extends Controller
 
     public function add(Product $product)
     {
+        // Check if product is out of stock
+        if ($product->quantity <= 0) {
+            return back()->with('error', 'Уучлаарай, энэ бараа дууссан байна.');
+        }
+
+        $cart = $this->getUserCart();
+        $existingItem = $cart->cartItems()->where('product_id', $product->id)->first();
+
+        // Check if adding one more would exceed stock
+        if ($existingItem && $existingItem->quantity >= $product->quantity) {
+            return back()->with('error', "Үлдэгдэл хүрэлцэхгүй байна. Зөвхөн {$product->quantity} ширхэг байна.");
+        }
+
         $this->addProductToCart($product);
 
         return back()->with('success', 'Сагсанд нэмэгдлээ');
+    }
+
+    public function buyNow(Product $product)
+    {
+        // Check if product is out of stock
+        if ($product->quantity <= 0) {
+            return back()->with('error', 'Уучлаарай, энэ бараа дууссан байна.');
+        }
+
+        $cart = $this->getUserCart();
+        $existingItem = $cart->cartItems()->where('product_id', $product->id)->first();
+
+        // Check if adding one more would exceed stock
+        if ($existingItem && $existingItem->quantity >= $product->quantity) {
+            return back()->with('error', "Үлдэгдэл хүрэлцэхгүй байна. Зөвхөн {$product->quantity} ширхэг байна.");
+        }
+
+        $this->addProductToCart($product);
+
+        return redirect()->route('order.create')->with('success', 'Сагснаас худалдан авахад бэлэн.');
+    }
+
+    public function updateQuantity(Product $product)
+    {
+        $quantity = request()->input('quantity', 1);
+
+        if ($quantity < 1) {
+            return back()->with('error', 'Тоо ширхэг 1-ээс багагүй байх ёстой.');
+        }
+
+        if ($quantity > $product->quantity) {
+            return back()->with('error', "Үлдэгдэл хүрэлцэхгүй байна. Зөвхөн {$product->quantity} ширхэг байна.");
+        }
+
+        $cart = $this->getUserCart();
+        $cartItem = $cart->cartItems()->where('product_id', $product->id)->first();
+
+        if ($cartItem) {
+            $cartItem->quantity = $quantity;
+            $cartItem->total_price = $quantity * $cartItem->unit_price;
+            $cartItem->save();
+
+            $this->syncTotals($cart);
+
+            return back()->with('success', 'Тоо ширхэг шинэчлэгдлээ');
+        }
+
+        return back()->with('error', 'Бараа олдсонгүй');
     }
 
     public function moveFromWishlist(Product $product)
@@ -94,7 +155,20 @@ class CartController extends Controller
             'product_id' => $product->id,
         ]);
 
-        $cartItem->quantity = $cartItem->exists ? $cartItem->quantity + $quantity : $quantity;
+        $newQuantity = $cartItem->exists ? $cartItem->quantity + $quantity : $quantity;
+
+        // Check if adding would exceed available stock
+        if ($newQuantity > $product->quantity) {
+            $availableQty = max(0, $product->quantity - ($cartItem->quantity ?? 0));
+            if ($availableQty > 0) {
+                $cartItem->quantity = $product->quantity;
+            } else {
+                return $cart; // Cannot add more, stock is exhausted
+            }
+        } else {
+            $cartItem->quantity = $newQuantity;
+        }
+
         $cartItem->unit_price = $product->price;
         $cartItem->total_price = $cartItem->quantity * $cartItem->unit_price;
         $cartItem->save();

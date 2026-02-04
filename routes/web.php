@@ -26,6 +26,7 @@ use App\Http\Controllers\SavedCardController;
 Route::get('/', [GuestWelcomeController::class, 'index'])->name('welcome');
 Route::get('/contact', [GuestWelcomeController::class, 'contact'])->name('contact');
 Route::get('/products', [UserDashboardController::class, 'index'])->defaults('section', 'products')->name('products');
+Route::get('/products/{product}', [ProductController::class, 'showPublic'])->name('products.show');
 
 // ================= USER AUTH =================
 Route::middleware('guest:web')->group(function () {
@@ -68,6 +69,8 @@ Route::middleware('auth:web')->group(function () {
     // ===== CART =====
     Route::get('/cart', fn() => redirect()->route('users.dashboard', 'cart'))->name('cart.index');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/buy/{product}', [CartController::class, 'buyNow'])->name('cart.buy');
+    Route::post('/cart/update/{product}', [CartController::class, 'updateQuantity'])->name('cart.update');
     Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
     Route::post('/cart/wishlist/{product}/move', [CartController::class, 'moveFromWishlist'])->name('cart.wishlist.move');
@@ -122,6 +125,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/admin/settings/security', [AdminSettingsController::class, 'updateSecurity'])->name('admin.settings.security');
 
     Route::resource('/admin/products', ProductController::class)->names('admin.products');
+    Route::get('/admin/categories/{category}', [AdminController::class, 'categoryProducts'])->name('admin.categories.products');
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
     Route::get('/admin/orders/{order}', [AdminController::class, 'showOrder'])->name('admin.orders.show');
     Route::patch('/admin/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.updateStatus');
