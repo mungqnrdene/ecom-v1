@@ -12,6 +12,11 @@ class GuestWelcomeController extends Controller
         $products = Product::latest()->take(12)->get();
         return view("users.guest.guestwelcome", compact("products"));
     }
+    public function indexApi()
+    {
+        $products = Product::latest()->take(12)->get();
+        return response()->json($products);
+    }
 
     public function contact()
     {
