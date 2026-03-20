@@ -863,15 +863,15 @@
                             <a href="mailto:mongoldei0212@gmail.com" title="Email">
                                 <i class="fas fa-envelope"></i>
                             </a>
-                            <a href="https://x.com/mungunrs?s=21" target="_blank" rel="noopener"
+                            <a href="#" target="_blank" rel="noopener"
                                 title="Twitter / X">
                                 <i class="fab fa-x-twitter"></i>
                             </a>
-                            <a href="https://www.facebook.com/share/1FoBAfhNLL/?mibextid=wwXIfr" target="_blank"
+                            <a href="#" target="_blank"
                                 rel="noopener" title="Facebook">
                                 <i class="fab fa-facebook"></i>
                             </a>
-                            <a href="https://www.instagram.com/_mungqn_erdene?igsh=MW1oYWpteHFyNHc3MA%3D%3D&utm_source=qr"
+                            <a href="#"
                                 target="_blank" rel="noopener" title="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
