@@ -833,9 +833,6 @@
                                 <div class="account-label">Дансны дугаар:</div>
                                 <div class="account-value">
                                     <span id="accountNumber"></span>
-                                    <button type="button" class="copy-btn" onclick="copyAccount()">
-                                        <i class="bi bi-clipboard"></i> Хуулах
-                                    </button>
                                 </div>
                             </div>
                             <div class="account-info">

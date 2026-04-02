@@ -10,7 +10,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            width: 350px;
+            min-width: 250px;
         }
 
         .cart-card:hover {
@@ -72,7 +72,6 @@
         }
 
         .quantity-control {
-            display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 12px;
@@ -93,8 +92,16 @@
         .quantity-input-wrapper {
             display: flex;
             align-items: center;
-            gap: 6px;
-            flex: 1;
+        }
+
+        .quantity-input-wrappers {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .quantity-input-wrapper2 {
+            padding-top: 5px;
         }
 
         .quantity-btn {
@@ -178,6 +185,7 @@
             justify-content: center;
             gap: 6px;
         }
+        
 
         @media (max-width: 767px) {
             .cart-actions {
@@ -226,17 +234,21 @@
                         <form method="POST" action="{{ route('cart.update', $item->product_id) }}"
                             class="quantity-control">
                             @csrf
-                            <label><i class="bi bi-box-seam"></i> Тоо:</label>
-                            <div class="quantity-input-wrapper">
-                                <button type="button" class="quantity-btn quantity-decrease"
-                                    data-product-id="{{ $item->product_id }}">−</button>
-                                <input type="number" name="quantity" id="quantity-{{ $item->product_id }}"
-                                    class="quantity-input" value="{{ $item->quantity }}" min="1"
-                                    max="{{ $product->quantity ?? 99 }}" required>
-                                <button type="button" class="quantity-btn quantity-increase"
-                                    data-product-id="{{ $item->product_id }}"
-                                    data-max="{{ $product->quantity ?? 99 }}">+</button>
-                                <button type="submit" class="update-btn">
+                            <div class="quantity-input-wrappers">
+                                <label><i class="bi bi-box-seam"></i> Тоо:</label>
+                                <div class="quantity-input-wrapper">
+                                    <button type="button" class="quantity-btn quantity-decrease"
+                                        data-product-id="{{ $item->product_id }}">−</button>
+                                    <input type="number" name="quantity" id="quantity-{{ $item->product_id }}"
+                                        class="quantity-input" value="{{ $item->quantity }}" min="1"
+                                        max="{{ $product->quantity ?? 99 }}" required>
+                                    <button type="button" class="quantity-btn quantity-increase"
+                                        data-product-id="{{ $item->product_id }}"
+                                        data-max="{{ $product->quantity ?? 99 }}">+</button>
+                                </div>
+                            </div>
+                            <div class="quantity-input-wrapper2">
+                                <button type="submit" class="update-btn w-100">
                                     <i class="bi bi-check2"></i> Шинэчлэх
                                 </button>
                             </div>
@@ -255,7 +267,7 @@
                                 style="flex: 1;">
                                 @csrf
                                 <button class="btn btn-danger w-100">
-                                    ✖ Хасах
+                                    Цуцлах
                                 </button>
                             </form>
                         </div>
