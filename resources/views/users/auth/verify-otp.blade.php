@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'OTP баталгаажуулах')
+
+<style>
+    .auth-input:focus{
 outline: none;
 border-color: rgba(14, 165, 233, 0.4);
 background: rgba(30, 41, 59, 0.8);
@@ -56,6 +59,7 @@ color: #7dd3fc;
 font-weight: 600;
 text-decoration: none;
 }
+</style>
 
 @section('content')
     <div class="auth-wrapper">

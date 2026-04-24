@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Нууц үг мартсан')
-.auth-wrapper {
+
+<style>
+    .auth-wrapper {
 min-height: 100vh;
 display: flex;
 align-items: center;
@@ -184,6 +186,8 @@ padding: 24px;
 font-size: 1.25rem;
 }
 }
+</style>
+
 
 @section('content')
     <div class="auth-wrapper">
